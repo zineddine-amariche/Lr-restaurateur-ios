@@ -10,11 +10,14 @@ const RootStackScreen = ({navigation}) => {
   const Commandes = useSelector(state => state.Commandes);
   const {isOpen} = Commandes;
   return isOpen ? (
-    <RootStack.Navigator headerMode="none">
+    <RootStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
       <RootStack.Screen name="Drawer" component={Drawer} />
     </RootStack.Navigator>
   ) : (
-    <RestaurantstackScreen/>
+    <RestaurantstackScreen />
   );
 };
 export default RootStackScreen;

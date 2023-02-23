@@ -9,7 +9,9 @@ const RootLiveRestoApp = () => {
   const auth = useSelector(state => state.auth);
   const {Token, isLogged} = auth;
   return (
-    <RootStack.Navigator headerMode="none">
+    <RootStack.Navigator   screenOptions={{
+      headerShown:false
+    }}>
       {isLogged ? (
         <RootStack.Screen
           name="RootStackScreen"
