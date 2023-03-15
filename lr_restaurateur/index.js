@@ -7,7 +7,7 @@
  import {name as appName} from './app.json';
 // import DataProvider from './Redux/Store';
 import { Provider as StoreProvider } from 'react-redux';
-import configureStore from './Redux/Store';
+import configureStore from './src/Redux/Store';
 const store = configureStore();
 const NewApp = () => {
    return (

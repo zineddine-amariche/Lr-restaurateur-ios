@@ -2,68 +2,80 @@
  * Created by Amariche zineedine on 2021/11/03.
  * Modified by Amariche zineedine on 2022/03/15.
  */
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, Provider as PaperProvider} from 'react-native-paper';
+import {NavigationContainer} from '@react-navigation/native';
+
+import {useDispatch, useSelector} from 'react-redux';
+import RootLiveRestoApp from './src/Services/AppStack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {View} from 'react-native';
+import {COLORS} from './src/constants/theme';
 import {
-  ActivityIndicator,
-  Provider as PaperProvider,
-} from "react-native-paper";
-import { NavigationContainer } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import RootLiveRestoApp from "./src/AppStack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View } from "react-native";
-import { COLORS } from "./constants/theme";
-import { dispatchLoginStorage } from "./Redux/Actions/Login";
-import { isTablet } from "./Redux/Actions/isTab";
-import { LOGIN_FAILED } from "./Redux/Types/Login";
+  dispatchGetInformation,
+  dispatchLogin,
+  dispatchLoginStorage,
+} from './src/Redux/Actions/Login';
+import {isTablet} from './src/Redux/Actions/isTab';
+import {LOGIN_FAILED, LOGIN_SUCCESS} from './src/Redux/Types/Login';
 
-import { QueryClientProvider, QueryClient } from "react-query";
-import { persistStore } from "redux-persist";
-import store from "./Redux/Store";
-
+import {QueryClientProvider, QueryClient} from 'react-query';
+import {persistStore} from 'redux-persist';
+import store from './src/Redux/Store';
 
 const App = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-  const { Token } = auth;
+  const auth = useSelector(state => state.auth);
+  const {Token, establishments, login} = auth;
 
-  let configHead = {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept-Language": "fr",
-      accept: "application/json",
-      Authorization: "Bearer " + Token,
-    },
-  };
+  // console.log(auth,'auth')
+  // let configHead = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Accept-Language": "fr",
+  //     accept: "application/json",
+  //     Authorization: "Bearer " + Token,
+  //     login:login?.login,
+  //     establishment:establishments?.id
+  //   },
+  // };
 
   const [checkAsyc, setcheckAsyc] = useState(false);
 
   useEffect(() => {
     setTimeout(async () => {
       try {
-        let login = await AsyncStorage.getItem("login");
-        let password = await AsyncStorage.getItem("password");
-        if (login && password) {
-          dispatchLoginStorage(dispatch, configHead, login, password);
-          isTablet(dispatch);
-        }
+        let login = await AsyncStorage.getItem('login');
+        let password = await AsyncStorage.getItem('password');
+
+        let configHead = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': 'fr',
+          },
+        };
+
+        let obj = {
+          password,
+          login,
+        };
+        dispatchLogin(dispatch, configHead, obj);
+
         setcheckAsyc(true);
       } catch (error) {
         error,
-          dispatch({ type: LOGIN_FAILED, payload: "échec de connexion !" }),
-          console.log("error.message", error.message);
-        console.log("------33-", error);
+           dispatch({ type: LOGIN_FAILED, payload: "échec de connexion !" }),
+          console.log('error.local', error.message);
+        console.log('------33-', error);
       }
-    }, 4000);
+    }, 1000);
   }, []);
 
-  // let persistor = persistStore(store);
   const queryClient = new QueryClient();
-
 
   const Loading = () => {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="small" color={COLORS.primary} />
       </View>
     );
@@ -71,15 +83,9 @@ const App = () => {
   return (
     <PaperProvider>
       <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-
-      {/* <PersistGate loading={null} persistor={persistor}> */}
-
-        {checkAsyc ? <RootLiveRestoApp /> : <Loading />}
-        {/* </PersistGate> */}
-
+        <QueryClientProvider client={queryClient}>
+          {checkAsyc ? <RootLiveRestoApp /> : <Loading />}
         </QueryClientProvider>
-
       </NavigationContainer>
     </PaperProvider>
   );
