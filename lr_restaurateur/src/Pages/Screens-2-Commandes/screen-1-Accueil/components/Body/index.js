@@ -114,24 +114,24 @@ const Body = ({ navigation }) => {
     );
   };
 
-  const [first, setfirst] = useState(0);
+  // const [first, setfirst] = useState(0);
 
-  const Counter = () => {
-    Commandes.others.map((i) => {
-      if (i.state_id === 30) {
-        return setfirst(-1), console.log("first", first);
-      }
-    });
-  };
+  // const Counter = () => {
+  //   Commandes.others.map((i) => {
+  //     if (i.state_id === 30) {
+  //       return setfirst(-1), console.log("first", first);
+  //     }
+  //   });
+  // };
 
 
-  useEffect(() => {
-    if (Commandes?.Commandes?.others?.length) {
-      setTimeout(() => {
-        Counter();
-      }, 5000);
-    }
-  }, [refresh, isFocused]);
+  // useEffect(() => {
+  //   if (Commandes?.Commandes?.others?.length) {
+  //     setTimeout(() => {
+  //       Counter();
+  //     }, 5000);
+  //   }
+  // }, [refresh, isFocused]);
 
   const WidthCut = width <= 800 ? "100%" : "80%";
 

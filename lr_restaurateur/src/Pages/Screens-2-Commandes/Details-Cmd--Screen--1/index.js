@@ -65,7 +65,11 @@ const Details = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderInfo navigation={navigation} />
+      <HeaderInfo navigation={navigation} 
+        onPress={() => {
+          navigation.navigate('Commandes');
+        }}
+      />
       {error && <ToastMessages type={type} error={error} />}
       <ScrollView>
         <View style={styles.containerId}>

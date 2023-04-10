@@ -9,9 +9,8 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import { styles } from "./styles";
-import group from "../../../../../assets/Accueil/Group149.png";
 import group155 from "../../../../../assets/Accueil/Group.png";
-import group156 from "../../../../../assets/Accueil/Group150.png";
+import group156 from "../../../../../assets/Accueil/Group150A.png";
 import { useCommandes } from "../../Hooks/useCommandes";
 import ModalPrinter from "../Card-1/Components/PopUp/ModalPrinter";
 import { useSelector } from "react-redux";

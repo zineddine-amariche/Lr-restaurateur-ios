@@ -34,7 +34,9 @@ const Horaires = ({navigation: {goBack}, navigation}) => {
       />
 
       <View style={{padding: 20, backgroundColor: '#fff'}}>
-        <HeaderPrinter goBack={goBack} />
+        <HeaderPrinter goBack={()=>{
+          navigation.navigate('Parametre')
+        }} />
 
         <View style={styles.Table}>
           <View style={styles.Midi}></View>

@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {styles} from './style';
-// import {BluetoothManager} from '@brooons/react-native-bluetooth-escpos-printer';
+import {BluetoothManager} from '@brooons/react-native-bluetooth-escpos-printer';
 // import { BluetoothManager, BluetoothEscposPrinter, BluetoothTscPrinter } from '@brooons/react-native-bluetooth-escpos-printer';
-import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
+// import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
 import {
   View,
   Text,

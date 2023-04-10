@@ -3,7 +3,6 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import {Animated, Button, Text, View,Image} from 'react-native';
 // import Icon from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
 import {COLORS} from '../../constants/theme';
 import styles from './styles';
 import info from '../../assets/info2.png'

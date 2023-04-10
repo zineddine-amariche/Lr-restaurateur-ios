@@ -10,7 +10,6 @@ import decline from '../../../../assets/Info/Group83.png';
 import phone from '../../../../assets/Info/Group366.png';
 import sale from '../../../../assets/Info/Vector(3).png';
 import aide from '../../../../assets/Info/Aide.png';
-import close from ' ../../../../assets/Info/x.png';
 import {styles} from './Styles';
 import {useSelector} from 'react-redux';
 import {COLORS} from '../../../../constants/theme';
@@ -229,7 +228,7 @@ const RenderItemes = ({DesAcitvePopUp, Visible,navigation}) => {
                     result_ById?.id,
                     4,
                   );
-                  navigation.goBack()
+                  navigation.navigate("Reservation") 
                 }}>
                 <Image source={decline} />
                 <Text style={styles.Textbtn1}>Décliner</Text>
@@ -242,7 +241,8 @@ const RenderItemes = ({DesAcitvePopUp, Visible,navigation}) => {
                     result_ById.id,
                     3,
                   );
-                  navigation.goBack()
+                  navigation.navigate("Reservation") 
+
                 }}>
                 <Image source={valider} />
                 <Text style={styles.Textbtn2}>Valider</Text>

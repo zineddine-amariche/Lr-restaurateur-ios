@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Image} from 'react-native';
+import {View, FlatList} from 'react-native';
 import React, { useEffect } from 'react';
 import {styles} from './Styles';
 import {useCommandes} from '../../Hooks/useCommandes';
@@ -26,9 +26,11 @@ const SectionType = ({navigation}) => {
   return (
     <View style={styles.container}>
       <FilterSelect setStatus={setStatus} textButtonFiltre={textButtonFiltre} />
-      <ScrollView>
+      <ScrollView 
+      contentContainerStyle={{backgroundColor:"#FFF" ,  }}
+      >
 
-        <ScrollView horizontal>
+        {/* <ScrollView horizontal> */}
 
         <View style={[styles.FlatList, {width: width}]}>
 
@@ -91,7 +93,8 @@ const SectionType = ({navigation}) => {
 
           )}
         </View>
-        </ScrollView>
+        
+        {/* </ScrollView> */}
 
       </ScrollView>
     </View>

@@ -1,8 +1,8 @@
 import {View, Text, Switch} from 'react-native';
 import React from 'react';
 import {styles} from '../../Hooks/style';
-// import {BluetoothManager} from '@brooons/react-native-bluetooth-escpos-printer';
-import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
+ import {BluetoothManager} from '@brooons/react-native-bluetooth-escpos-printer';
+// import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
 
 import {COLORS} from '../../../../../../constants/theme';
 

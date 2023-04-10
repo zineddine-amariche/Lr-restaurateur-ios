@@ -3,32 +3,19 @@ import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {styles} from './styles';
 import showPiker from '../../../../../assets/Reservation/icon.png';
-import ImageLeft from '../../../../../assets/Reservation/Stroke.png';
-import ImageRight from '../../../../../assets/Reservation/Stroke2.png';
 import moment from 'moment';
 import 'moment/locale/fr';
-import {GetReservationsData} from '../../../../../Redux/Actions/Reservations/reservationsActions';
 import {useDispatch, useSelector} from 'react-redux';
 import {GetReservationsListByDate} from '../../../../../Redux/Actions/Reservations/getListReservationByDate';
-import {IS_DATE_PIKER_OPEND, SELECTED_DATE} from '../../../../../Redux/Types/Reservations';
-import { useReservation } from '../../Hooks/useReservation';
+import {
+  SELECTED_DATE,
+} from '../../../../../Redux/Types/Reservations';
+import {useReservation} from '../../Hooks/useReservation';
 
 const DateHandler = () => {
   const dispatch = useDispatch();
 
-  const getReservations = useSelector(state => state.getReservations);
-
-  const{configHead} =useReservation()
-  const {result_token} = getReservations;
-  const {establishment_id, pos_id, token} = result_token;
-  let configHeader = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept-Language': 'fr',
-      accept: 'application/json',
-      Authorization: 'Bearer ' + token,
-    },
-  };
+  const {configHead} = useReservation();
 
   const [date, setDate] = useState(new Date());
   const [Mode, setMode] = useState('date');
@@ -77,13 +64,7 @@ const DateHandler = () => {
   let storedDate = getReservationsByDate.forDate
     ? moment(getReservationsByDate.forDate)?.format('ll')
     : '';
-
-  // console.log('storedDate', storedDate)
-  // getReservationsByDate.forDate?getReservationsByDate.forDate:
-
-  // console.log('getReservationsByDate.forDate', getReservationsByDate.forDate)
-
-  // console.log('showDate', showDate)
+ 
 
   return (
     <>
@@ -111,11 +92,4 @@ const DateHandler = () => {
 
 export default DateHandler;
 
-// <View style={styles.row2}>
-// <TouchableOpacity>
-//   <Image source={ImageLeft} />
-// </TouchableOpacity>
-// <TouchableOpacity>
-//   <Image source={ImageRight} />
-// </TouchableOpacity>
-// </View>
+ 

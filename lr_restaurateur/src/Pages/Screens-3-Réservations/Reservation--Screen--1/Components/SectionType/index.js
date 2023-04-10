@@ -1,4 +1,11 @@
-import {View, Text, FlatList, Dimensions, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 import React, {Children, useEffect, useState} from 'react';
 import {styles} from './Styles';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -10,8 +17,8 @@ import CardEn from '../Card-2';
 import ChildrenCop from '../Childern/Children';
 import {useDispatch, useSelector} from 'react-redux';
 import DateHandler from '../../../../../Components/date';
-import { GetReservationsListByDate } from '../../../../../Redux/Actions/Reservations/getListReservationByDate';
-import { useReservation } from '../../Hooks/useReservation';
+import {GetReservationsListByDate} from '../../../../../Redux/Actions/Reservations/getListReservationByDate';
+import {useReservation} from '../../Hooks/useReservation';
 // import DateHandler from '../date';
 // import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -22,6 +29,9 @@ const SectionType = ({
   pending,
   AcitvePopUpV,
   AcitvePopUp,
+  FiltredList,
+  onSearch,
+  onFilter,
 }) => {
   const Printer = useSelector(state => state.Printer);
   const {error, type} = Printer;
@@ -42,41 +52,53 @@ const SectionType = ({
       );
     }
   };
-  const{configHead} =useReservation()
+  const {configHead} = useReservation();
 
   const Tablet = useSelector(state => state.IsTab);
   const {IsTab} = Tablet;
-  const {forDate} = useSelector(
-    state => state.getReservationsByDate,
-  );
+  const {forDate} = useSelector(state => state.getReservationsByDate);
 
-  // console.log('first', forDate)
-
-  // const dispatch = useDispatch()
-// useEffect(() => {
-
-//   let object = {
-//     // establishment_id,
-//     // pos_id,
-//     for_when: forDate,
-//   };
-
-
-//   if(forDate){
-//     GetReservationsListByDate(dispatch, configHead, object);
-
-//   }
-// }, [forDate])
-
+  // console.log('FiltredList', onFilter)
+  // console.log('onSearch', onSearch)
 
   return (
-    <View style={styles.container}>
-    
+    <SafeAreaView style={styles.container}>
       <View style={styles.FlatList}>
         {error && type && <ChildrenCop error={error} type={type} />}
 
         {ActiveButton ? (
-          dataList.length !== 0 ? (
+          onSearch ? (
+            FiltredList.length !== 0 ? (
+              <>
+                <FlatList
+                  data={FiltredList}
+                  renderItem={({item, index}) => {
+                    return (
+                      <ItemsRender
+                        item={item}
+                        navigation={navigation}
+                        AcitvePopUp={AcitvePopUp}
+                        AcitvePopUpV={AcitvePopUpV}
+                      />
+                    );
+                  }}
+                  numColumns={IsTab ? 2 : 1}
+                  keyExtractor={item => item.id}
+                  contentContainerStyle={[styles.wrapper]}
+                  showsVerticalScrollIndicator={false}
+                />
+              </>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text>la liste est vide</Text>
+              </View>
+            )
+          ) : dataList.length !== 0 ? (
             <>
               <FlatList
                 data={dataList}
@@ -95,13 +117,10 @@ const SectionType = ({
                 contentContainerStyle={[styles.wrapper]}
                 showsVerticalScrollIndicator={false}
               />
-              {/* <TouchableOpacity onPress={()=>navigation.navigate("SaveReservation")}>
-              <Icon name="add-circle" color="#5DBCA3" size={40} />
-              </TouchableOpacity> */}
             </>
-          )
-          : (
-            <View style={{flex:1, alignItems:"center",justifyContent:"center"}}>
+          ) : (
+            <View
+              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
               <Text>la liste est vide</Text>
             </View>
           )
@@ -124,12 +143,13 @@ const SectionType = ({
             showsVerticalScrollIndicator={false}
           />
         ) : (
-          <View style={{flex:1, alignItems:"center",justifyContent:"center"}}>
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text>la liste est vide</Text>
           </View>
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

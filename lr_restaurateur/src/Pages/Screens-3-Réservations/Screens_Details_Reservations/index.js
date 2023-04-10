@@ -1,35 +1,42 @@
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, { useEffect } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import ToastMessages from '../../../Components/ToastMessages';
 import HeaderInfo from '../../Screens-2-Commandes/Details-Cmd--Screen--1/Components/header';
 import RenderItemes from './Render_Itemes';
-import { GetReservationsById } from '../../../Redux/Actions/Reservations/GetResrvation';
-import { useDispatch, useSelector } from 'react-redux';
-import { useReservation } from '../Reservation--Screen--1/Hooks/useReservation';
+import {GetReservationsById} from '../../../Redux/Actions/Reservations/GetResrvation';
+import {useDispatch, useSelector} from 'react-redux';
+import {useReservation} from '../Reservation--Screen--1/Hooks/useReservation';
 
 const DetailsReservation = ({route, navigation}) => {
   const {idReservation} = route.params;
 
   // const dispatch =useDispatch()
 
-  const { configHead ,dispatch} = useReservation();
-  const {loadingPost}= useSelector(state => state.postReservationsSlice);
-
+  const {configHead, dispatch} = useReservation();
+  const {loadingPost} = useSelector(state => state.postReservationsSlice);
 
   useEffect(() => {
-    if(idReservation){
-     GetReservationsById(dispatch, configHead, idReservation);
-      
+    if (idReservation) {
+      GetReservationsById(dispatch, configHead, idReservation);
     }
-  
-  
-  }, [idReservation,loadingPost])
-  
+  }, [idReservation, loadingPost]);
+
   return (
     <SafeAreaView style={styles.container}>
-        <StatusBar  backgroundColor={'transparent'}   barStyle='dark-content'/>
-      <HeaderInfo navigation={navigation} />
-        <RenderItemes navigation={navigation}/>
+      <StatusBar backgroundColor={'transparent'} barStyle="dark-content" />
+      <HeaderInfo
+        onPress={() => {
+          navigation.navigate('Reservation');
+        }}
+      />
+      <RenderItemes navigation={navigation} />
     </SafeAreaView>
   );
 };

@@ -7,14 +7,12 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import { styles } from "./styles";
-import group from "../../../../../assets/Accueil/Group149.png";
 import group155 from "../../../../../assets/Accueil/Group155.png";
 import group156 from "../../../../../assets/Accueil/Group156.png";
 import { useCommandes } from "../../Hooks/useCommandes";
 import { COLORS } from "../../../../../constants/theme";
 import ModalPrinter from "./Components/PopUp/ModalPrinter";
 import { useSelector } from "react-redux";
-import { iif } from "rxjs";
 import { useColorScheme } from "react-native";
 
 const CardAtt = ({ item, navigation }) => {

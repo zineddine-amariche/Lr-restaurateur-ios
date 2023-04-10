@@ -12,28 +12,19 @@ import terminer from '../../assets/Drawer/Terminée.png';
 import params from '../../assets/Drawer/Parametres.png';
 import deconner from '../../assets/Drawer/Deconnexion.png';
 import aide from '../../assets/Drawer/Aide.png';
-import { LOGOUT } from '../../Redux/Types/Login';
+import {LOGOUT} from '../../Redux/Types/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CloseCommandes } from '../../Redux/Actions/Commandes';
+import {CloseCommandes} from '../../Redux/Actions/Commandes';
 
 export function DrawerContent(props) {
-
   const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = openData ? toggleOpen : toggleOff;
   const auth = useSelector(state => state.auth);
   // console.log('user', auth.user.title);
 
+  let key = ['password', 'login'];
 
-  let key =[
-    'password',
-    'login',
-  ]
-
-
-
-
-
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -53,12 +44,7 @@ const dispatch = useDispatch()
               />
               <View style={{marginLeft: 15, flexDirection: 'column'}}>
                 <Title style={styles.title}>{auth.user.title}</Title>
-                <Caption
-                  style={[
-                    styles.caption,
-                  ]}>
-                  {auth.user.subtitle}
-                </Caption>
+                <Caption style={[styles.caption]}>{auth.user.subtitle}</Caption>
               </View>
             </View>
           </View>
@@ -98,37 +84,34 @@ const dispatch = useDispatch()
             />
           </Drawer.Section>
           {/* 0491404040 */}
-
-  
         </View>
       </DrawerContentScrollView>
-      <View style={{alignSelf: "center"}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{alignSelf: 'center'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={{
+              color: '#000',
+              fontSize: 16,
+              color: '#000',
+            }}>
+            Contactez nous :
+          </Text>
+          <TouchableOpacity>
+            <View style={{marginLeft: 10, fontWeight: 'bold', fontSize: 17}}>
               <Text
                 style={{
-                  color: '#000',
+                  color: '#087',
                   fontSize: 16,
-                  color: '#000',
+                  fontWeight: 'bold',
+                  textDecorationStyle: 'solid',
+                  textDecorationLine: 'underline',
                 }}>
-                Contactez nous :
+                0491404040
               </Text>
-              <TouchableOpacity>
-                <View
-                  style={{marginLeft: 10, fontWeight: 'bold', fontSize: 17}}>
-                  <Text
-                    style={{
-                      color: '#087',
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                      textDecorationStyle: 'solid',
-                      textDecorationLine: 'underline',
-                    }}>
-                    0491404040
-                  </Text>
-                </View>
-              </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
+        </View>
+      </View>
       <Drawer.Section name="Preferences">
         <View style={styles.preferences}>
           <Text style={styles.titleH1}>Fermer Le Restaurant</Text>
@@ -139,7 +122,7 @@ const dispatch = useDispatch()
             onValueChange={() => {
               // toggleOff();
               // props.navigation.navigate('Commandes');
-              CloseCommandes(dispatch)
+              CloseCommandes(dispatch);
             }}
             value={isEnabled}
           />
@@ -147,14 +130,12 @@ const dispatch = useDispatch()
       </Drawer.Section>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
-          icon={({color, size}) => (
-            <Image source={deconner} />
-          )}
+          icon={({color, size}) => <Image source={deconner} />}
           label="Se deconnecter"
-          onPress={async() => {
+          onPress={async () => {
             // signOut();
-           dispatch({type :LOGOUT}) 
-           await AsyncStorage.multiRemove(key)
+            dispatch({type: LOGOUT});
+            await AsyncStorage.multiRemove(key);
           }}
         />
       </Drawer.Section>
@@ -206,9 +187,9 @@ onPress={() => { props.navigation.navigate('FermetureScreen') }}
 const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
-    alignSelf:'center',
+    alignSelf: 'center',
     backgroundColor: '#fff',
-    width:'100%'
+    width: '100%',
   },
   userInfoSection: {
     paddingLeft: 20,
@@ -221,8 +202,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: 13,
-       color: '#000',
-
+    color: '#000',
   },
   row: {
     marginTop: 15,
@@ -259,11 +239,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     backgroundColor: '#fff',
     alignItems: 'center',
-    alignSelf:'center'
+    alignSelf: 'center',
   },
   titleH1: {
     color: '#000',
     fontWeight: 'bold',
-    paddingRight:20
+    paddingRight: 20,
   },
 });

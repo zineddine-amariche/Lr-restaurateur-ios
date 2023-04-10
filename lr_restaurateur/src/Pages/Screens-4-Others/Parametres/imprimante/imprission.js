@@ -56,7 +56,12 @@ const Imprission = ({ navigation: { goBack }, navigation }) => {
       />
       <View style={{ flex: 1 }}>
         <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
-          <HeaderPrinter goBack={goBack} />
+          <HeaderPrinter  
+          
+          goBack={()=>{
+            navigation.navigate('Parametre')
+          }} 
+          />
           <SwitchPrinter
             bleOpend={bleOpend}
             SwitchBle={SwitchBle}

@@ -3,7 +3,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {styles} from '../../Hooks/style';
-import printer from '../../../../../../assets/Accueil/Group150.png';
+import printer from '../../../../../../assets/Accueil/Group150A.png';
 import {COLORS} from '../../../../../../constants/theme';
 const SearchButton = ({bleOpend, loading, _scan}) => {
   const Printer = useSelector(state => state.Printer);

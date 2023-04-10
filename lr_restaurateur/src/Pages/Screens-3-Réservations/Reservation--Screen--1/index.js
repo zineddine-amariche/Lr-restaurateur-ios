@@ -1,40 +1,45 @@
-
 import {styles} from './Hooks/styles';
 import React, {useEffect, useState} from 'react';
-import {View, StatusBar, SafeAreaView} from 'react-native';
+import {
+  View,
+  StatusBar,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Text,
+} from 'react-native';
 import Header from '../../../Components/Headers/header-1-Primary';
 import {COLORS} from '../../../constants/theme';
 import ButtonListe from './Components/Lists';
 import SectionType from './Components/SectionType';
-import {useIsFocused} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useReservation} from './Hooks/useReservation';
 import Sound from 'react-native-sound';
 import moment from 'moment';
+import close from '../../../assets/Info/x.png';
 
-import {
-  GetReservationsData,
-  GetTokenReservations,
-} from '../../../Redux/Actions/Reservations/reservationsActions';
+import {GetReservationsData} from '../../../Redux/Actions/Reservations/reservationsActions';
 import ModalInfo from './Components/Modals/Modal_Info';
 import Laoder from '../../../Components/Laoder';
-import ModalValidation from '../Screens_Details_Reservations/Render_Itemes';
 import {GetReservationsById} from '../../../Redux/Actions/Reservations/GetResrvation';
-import ModalCardList from './Components/Modals/model_card2';
 import ButtonsTabsMenue from '../../../Components/Buttons/TabsButtons/ButtonsTabsMenue';
 import DateHandler from '../../../Components/date';
 
-import OneSignal from 'react-native-onesignal';
-
-
 const Reservation = ({navigation, route}) => {
-  // const {Token} = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
   const {configHead, ToReservation, ToCommandes} = useReservation();
+  const [search, setsearch] = useState();
 
+  const handleSearch = text => {
+    setsearch(text);
+  };
 
-  const {result_ById, isLoading} = useSelector(state => state.getReservationsById);
+  const handleClearText = () => {
+    setsearch('');
+  };
+
+  const {isLoading} = useSelector(state => state.getReservationsById);
   const {list_reservation_pending, list_reservation, loading} = useSelector(
     state => state.getReservations,
   );
@@ -50,43 +55,11 @@ const Reservation = ({navigation, route}) => {
   useEffect(() => {
     if (!getReservationsByDate.isPikerOpend) {
       const interval = setInterval(() => {
-        // if (establishment_id) {
         GetReservationsData(dispatch, configHead);
-        // }
-      }, 5000);
+      }, 20000);
       return () => clearInterval(interval);
     }
   }, [getReservationsByDate.isPikerOpend]);
-  
-
-  // useEffect(() => {
-  //   // OneSignal.setNotificationOpenedHandler(notificationResult => {
-
-  //   //   console.log("OneSignal: notification opened:", notificationResult);
-  //   //   // let data = notificationResult.notification().payload
-      
-  //   //   const { action, notification } = notificationResult;
-  //   //   const data=notification.additionalData
-  //   //   // const item=data.booking_id
-  //   //   console.log(notification,'notification resa')
-  //   //   console.log(data,'data resa')
-  //   //   if(data.type=="new_booking" && !getReservationsByDate.isPikerOpend){
-  //   //     navigation.navigate("Reservation")
-  //   //     GetReservationsData(dispatch, configHead);
-  //   //   }else if(data.type=="canceled_booking" && !getReservationsByDate.isPikerOpend){
-  //   //   navigation.navigate("DetailsReservation",{item})
-  //   //   GetReservationsData(dispatch, configHead);
-  //   // } else if(data.type=="new_order"){
-  //   //   navigation.navigate("Commandes")
-  //   // }
-     
-      
-  //   // });
-  //   if(!getReservationsByDate.isPikerOpend){
-  //     GetReservationsData(dispatch, configHead);
-  //   }
-    
-  // }, [getReservationsByDate.isPikerOpend]);
 
   const [ActiveButton, setActiveButton] = useState(false);
 
@@ -108,16 +81,6 @@ const Reservation = ({navigation, route}) => {
   };
 
 
-  const [VisibleV, setVisibleV] = useState(false);
-
-  const AcitvePopUpV = id => {
-    // setVisibleV(true);
-    // GetReservationsById(dispatch, configHead, id);
-  };
-
-  const DesAcitvePopUpV = () => {
-    setVisibleV(false);
-  };
   // card2
   const [Visible, setVisible] = useState(false);
   const AcitvePopUp = id => {
@@ -127,7 +90,7 @@ const Reservation = ({navigation, route}) => {
   const DesAcitvePopUp = () => {
     setVisible(false);
   };
-  let soundUrl = require('../../../../android/app/src/main/res/raw/son.mp3')
+  let soundUrl = require('../../../../android/app/src/main/res/raw/son.mp3');
 
   useEffect(() => {
     if (list_reservation_pending?.length !== 0) {
@@ -150,7 +113,21 @@ const Reservation = ({navigation, route}) => {
     ? list_reservation
     : [];
 
-  // console.log('dataList', dataList)
+  const searchTermLowercase = search?.toLowerCase();
+
+  const filteredData = dataList.filter(
+    item =>
+      item?.customer?.lastname?.toLowerCase().includes(searchTermLowercase) ||
+      item.customer.firstname.toLowerCase().includes(searchTermLowercase) ||
+      item.customer.email.toLowerCase().includes(searchTermLowercase) ||
+      item.customer.mobile_phone.toLowerCase().includes(searchTermLowercase),
+  );
+
+  // console.log('dataList', dataList);
+  // console.log('filteredData.length', filteredData.length);
+
+  // console.log('filteredData', filteredData);
+  // console.log('search?.length', search);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.secondary} barStyle="light-content" />
@@ -183,6 +160,37 @@ const Reservation = ({navigation, route}) => {
         </View>
       ) : (
         <>
+          {ActiveButton && dataList ? (
+            <View
+              style={{
+                backgroundColor: COLORS.white,
+                width: '100%',
+                padding: 20,
+                height: 90,
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TextInput
+                  placeholder="Cherchcer"
+                  onChangeText={handleSearch}
+                  value={search}
+                  style={styles.Input}
+                  placeholderTextColor={COLORS.darkGris}
+                />
+                {search?.length > 0 && (
+                  <TouchableOpacity
+                    onPress={handleClearText}
+                    style={{position: 'absolute', right: 10}}>
+                    <Image source={close} />
+                  </TouchableOpacity>
+                )}
+                {!search && (
+                  <View style={{position: 'absolute', right: 10}}>
+                    <Text>🔍</Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          ) : null}
           <View style={styles.trie}>
             {ActiveButton && dataList ? <DateHandler /> : null}
           </View>
@@ -199,9 +207,11 @@ const Reservation = ({navigation, route}) => {
                 ? list_reservation
                 : []
             }
+            FiltredList={filteredData}
             pending={list_reservation_pending}
+            onSearch={search?.length ? true : false}
+            onFilter={filteredData?.length ? true : false}
             openMenu={openMenu}
-            AcitvePopUpV={AcitvePopUpV}
             AcitvePopUp={AcitvePopUp}
           />
         </>
@@ -211,27 +221,9 @@ const Reservation = ({navigation, route}) => {
         DesAcitvePopUp={DesAcitvePopUp}
         Visible={Visible}
         loading={isLoading}
-        // result_ById={result_ById}
       />
-      {/* <ModalValidation
-        DesAcitvePopUp={DesAcitvePopUpV}
-        Visible={VisibleV}
-        loading={isLoading}
-        result_ById={result_ById}
-      /> */}
-
-      {/* {result_ById && (
-        <ModalCardList
-          DesAcitvePopUp={DesAcitvePopUp}
-          Visible={Visible}
-          item={result_ById}
-          loading={isLoading}
-          result_ById={result_ById}
-        />
-      )} */}
     </SafeAreaView>
   );
 };
 
 export default Reservation;
- 

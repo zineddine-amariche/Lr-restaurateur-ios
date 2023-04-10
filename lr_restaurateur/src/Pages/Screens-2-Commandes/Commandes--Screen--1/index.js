@@ -21,6 +21,8 @@ import { UseTime } from '../../../Components/Timer/Hooks/useTime';
 
 const LazySectionTYpe = React.lazy(() => import('./Components/SectionType'));
 const Commandes = ({navigation}) => {
+
+
   const [Visible, setVisible] = useState(false);
   const [timerOn, setTimerOn] = useState(false);
   const [timeLeft, settimeLeft] = useState(second_selected);
@@ -43,7 +45,6 @@ const Commandes = ({navigation}) => {
     ToReservation,
   } = useCommandes();
 
-const {ActiveTimer}=UseTime()
 
   const openMenu = () => {
     setVisible(true);
@@ -69,7 +70,7 @@ const {ActiveTimer}=UseTime()
           console.log('------22-', e);
         }
       }
-    }, 5000);
+    }, 20000);
     return () => {
       clearInterval(interval);
     };
@@ -106,7 +107,7 @@ const {ActiveTimer}=UseTime()
           } else {
             if (Filter.length !== 0) {
               mySound.play(success => {
-                console.log('success', success)
+                // console.log('success', success)
                 if (success) {
                   mySound.setNumberOfLoops(Filter.length);
                   mySound.getNumberOfLoops();
@@ -157,11 +158,11 @@ const {ActiveTimer}=UseTime()
     }
   }, [status_active, isFocused, refresh]);
 
-  const route = useRoute();
+  const routes = useRoute();
 
   useEffect(() => {
     if (
-      (route.name === 'Commandes' || 'Reservations') &&
+      (routes.name === 'Commandes' || 'Reservations') &&
       isTimerActive &&
       second_selected
     ) {
@@ -173,7 +174,7 @@ const {ActiveTimer}=UseTime()
     //  if (!isFocused && isTimerActive) {
     //    setTimerOn(false);
     //  }
-  }, [isFocused, route.name]);
+  }, [isFocused, routes.name]);
 
   useEffect(() => {
     if (timeLeft == 0) {

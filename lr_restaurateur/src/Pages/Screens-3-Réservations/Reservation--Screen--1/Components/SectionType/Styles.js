@@ -5,18 +5,20 @@ import { COLORS } from '../../../../../constants/theme';
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
+    flex:1
   },
 
   FlatList: {
 
-    height:"70%",
+    // height:"90%",
     backgroundColor: COLORS.white,
     width:'100%',
     overflow:'visible',
     alignSelf:'center',
     alignItems:'center',
     justifyContent:'center',
-    marginTop:10
+    flex:1
+
   },
   wrapper:{
  
@@ -24,7 +26,7 @@ export const styles = StyleSheet.create({
     backgroundColor:COLORS.white,
     width:'100%',
     alignSelf:'center',
-    paddingBottom:90
+    paddingBottom:20
 
 }
 });

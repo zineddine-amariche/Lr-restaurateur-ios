@@ -1,16 +1,24 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, StatusBar, Text, Image, SafeAreaView} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  StatusBar,
+  Text,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import Header from '../../../../Components/Headers/header-1-Primary';
 import {COLORS} from '../../../../constants/theme';
 
 import vector from '../../../../assets/paramètres/Vector(Stroke).png';
-import Horaires from '../../../../assets/paramètres/Group155.png';
+import Horaires from '../../../../assets/paramètres/GestionB.png';
 import Printer from '../../../../assets/paramètres/Vector.png';
 import aide from '../../../../assets/paramètres/Vector1.png';
+import {Linking} from 'react-native';
 
 import styles from './Hooks/Styles';
 import {Divider} from 'react-native-elements';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 const Parametre = ({navigation}) => {
   const auth = useSelector(state => state.auth);
   const [Visible, setVisible] = useState(false);
@@ -21,6 +29,22 @@ const Parametre = ({navigation}) => {
 
   const closeMenu = () => {
     setVisible(false);
+  };
+
+  const getReservations = useSelector(state => state.auth);
+
+  const {login} = getReservations;
+  let id = login?.establishments[0].id;
+  let name = login?.login;
+  let token = login?.token;
+
+
+  let url = `https://dev500.live-resto.fr/manager/payments/edit?token=${token}&establishment_id=${id}&login=${name}`;
+  const handleExternalLink = () => {
+    console.log('url', url);
+    if (id && name && token) {
+      Linking.openURL(url);
+    }
   };
 
   return (
@@ -49,14 +73,17 @@ const Parametre = ({navigation}) => {
       <View style={{paddingHorizontal: 25, backgroundColor: '#fff'}}>
         <TouchableOpacity
           style={styles.btn2}
-          onPress={() => {
-            navigation.navigate('Horaires');
-          }}>
+          // onPress={() => {
+          // navigation.navigate('Horaires');
+          onPress={handleExternalLink}
+
+          // }}
+        >
+          {/* Horaires d’ouverture du restaurant */}
+
           <View style={styles.ContainerRow}>
             <Image source={Horaires} style={{marginRight: 10}} />
-            <Text style={styles.TextBtn}>
-              Horaires d’ouverture du restaurant
-            </Text>
+            <Text style={styles.TextBtn}>Bouton paramètres de gestion</Text>
           </View>
           <Image source={vector} />
         </TouchableOpacity>
