@@ -4,8 +4,7 @@ import {
   LOADING,
   CLOSING_FAILED,
 } from '../../Types/closingRestaurant';
-import {ADD_SECONDS} from '../../Types/Timer';
-// import { CloseCommandes } from '../Commandes';
+import {API_URL_PROD, API_URL_DEV} from '@env';
 
 export const dispatchClosingRestaurant = async (
   dispatch,
@@ -14,20 +13,21 @@ export const dispatchClosingRestaurant = async (
   close,
   dispatchTimeclose,
 ) => {
-  let url = 'https://devgab.live-resto.fr/apiv2e/closings/add-simplified';
+  let API_BASE_URL;
 
-  // console.log(values,'values')
-  // {"data": {"id": 4342, "time": 502}, "result": true}
-  // console.log(configHead,'config')
+  if (__DEV__) {
+    API_BASE_URL = API_URL_DEV;
+  } else {
+    API_BASE_URL = API_URL_PROD;
+  }
+
+  let url = `${API_BASE_URL}/closings/add-simplified`;
+
   dispatch({type: LOADING});
   await axios
     .post(url, values, configHead)
     .then(res => {
       let Data = res.data;
-      //  console.log(Data,'my data')
-
-      // console.log('Data', Data);
-      // console.log('Data.time ', Data.data.time);
 
       if (Data?.data?.time) {
         dispatchTimeclose(Data?.data?.time * 60);
@@ -35,7 +35,6 @@ export const dispatchClosingRestaurant = async (
 
       return (
         res,
-        
         // dispatch({type:ADD_SECONDS,payload:Data?.time * 60})
         dispatch({type: CLOSING_SUCCESS, payload: Data}),
         console.log('response closing restaurant success'),

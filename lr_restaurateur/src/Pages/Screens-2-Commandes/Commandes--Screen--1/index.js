@@ -19,6 +19,7 @@ import {startTimer} from '../../../Redux/Actions/Timer';
 import {CHANGE_STYLES} from '../../../Redux/Types/Timer';
 import { UseTime } from '../../../Components/Timer/Hooks/useTime';
 
+
 const LazySectionTYpe = React.lazy(() => import('./Components/SectionType'));
 const Commandes = ({navigation}) => {
 

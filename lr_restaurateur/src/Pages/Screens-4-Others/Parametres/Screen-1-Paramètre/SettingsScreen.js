@@ -39,7 +39,7 @@ const Parametre = ({navigation}) => {
   let token = login?.token;
 
 
-  let url = `https://dev500.live-resto.fr/manager/payments/edit?token=${token}&establishment_id=${id}&login=${name}`;
+  let url = `https://m2.live-resto.fr/manager/payments/edit?token=${token}&establishment_id=${id}&login=${name}`;
   const handleExternalLink = () => {
     console.log('url', url);
     if (id && name && token) {

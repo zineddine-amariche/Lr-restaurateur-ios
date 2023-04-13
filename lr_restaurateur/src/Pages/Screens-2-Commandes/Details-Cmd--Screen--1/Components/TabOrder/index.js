@@ -8,12 +8,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   Collapse,
   CollapseHeader,
-  CollapseBody,
 } from 'accordion-collapse-react-native';
-// import {ListItem} from 'native-base';
 import {COLORS} from '../../../../../constants/theme';
-// import ListItem from 'react-native-paper/lib/typescript/components/List/ListItem';
-// import { ListItem } from 'react-native-elements';
 
 LogBox.ignoreAllLogs();
 const TabOrder = ({orders}) => {
@@ -38,7 +34,6 @@ const Tab = ({item}) => {
   let obj = item?._joinData?.extras ? item?._joinData?.extras : data;
 
  
-
   return (
     <View>
       <Collapse>
@@ -57,7 +52,11 @@ const Tab = ({item}) => {
             <View style={styles.rowItem}>
               <Text style={styles.textQty}>x{item?._joinData?.quantity}</Text>
               <Text style={styles.textPrice}>
-                {item?._joinData?.price.toFixed(2)}€
+                {`${
+                  item?._joinData?.price !== 0
+                    ? item?._joinData?.price.toFixed(2)
+                    : ''
+                }  `}
               </Text>
             </View>
           </View>
@@ -81,7 +80,56 @@ const Gid = ({item, obj}) => {
 
   return (
     <>
-      {/* <CollapseBody
+      {obj.map((i, index) => {
+        if (i.choice) {
+          return (
+            <>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor: i.choice ? '#eee' : 'transparent',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  padding: 10,
+                  marginTop: 6,
+                }}
+                key={index}>
+                <Text
+                  style={{
+                    color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+                  }}>
+                  {`- ${i.option}`}
+                </Text>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    width: 150,
+                    marginLeft: -5,
+                    color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+                  }}>
+                  {`${i.choice}`}
+                </Text>
+
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+                  }}>
+                  {i.price == 0 ? '' : `${i.price} €`}
+                </Text>
+              </View>
+            </>
+          );
+        } else {
+          return <></>;
+        }
+      })}
+    </>
+  );
+};
+
+{
+  /* <CollapseBody
         style={{
           width: '100%',
           alignItems: 'center',
@@ -137,53 +185,5 @@ const Gid = ({item, obj}) => {
               })}
           </View>
         </View>
-      </CollapseBody> */}
-
-      {obj.map((i, index) => {
-
-        if (i.choice) {
-          return (
-            <>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  backgroundColor: i.choice ? '#eee' : 'transparent',
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  padding: 10,
-                  marginTop: 6,
-                }}
-                key={index}>
-                <Text
-                  style={{
-                    fontWeight: '700',
-                    width: 150,
-                    marginLeft: -5,
-                    color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
-                  }}>
-                  {i.choice}
-                </Text>
-                <Text
-                  style={{
-                    color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
-                  }}>
-                  {i.option}
-                </Text>
-                <Text
-                  style={{
-                    width: 20,
-                    fontWeight: '700',
-                    color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
-                  }}>
-                  {i.price}
-                </Text>
-              </View>
-            </>
-          );
-        } else {
-          return <></>;
-        }
-      })}
-    </>
-  );
-};
+      </CollapseBody> */
+}

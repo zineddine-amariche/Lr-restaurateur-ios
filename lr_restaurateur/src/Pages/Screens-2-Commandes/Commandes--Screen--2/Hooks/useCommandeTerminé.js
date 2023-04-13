@@ -4,7 +4,7 @@ import {BluetoothEscposPrinter} from '@brooons/react-native-bluetooth-escpos-pri
 import { DELETE_MESSAGES_PRINTER, PRINTER_FAILED } from '../../../../Redux/Types/Printer';
 import { useWindowDimensions } from 'react-native';
 import { REFRESH } from '../../../../Redux/Types/Commandes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {API_URL_PROD, API_URL_DEV} from '@env';
 
 export function useCommandeTerminé() {
   const auth = useSelector(state => state.auth);
@@ -49,7 +49,23 @@ export function useCommandeTerminé() {
     try {
       if (Token) {
         // console.log('fetch', Token, id);
-        await fetch('https://devgab.live-resto.fr/apiv2e/orders/details', {
+
+    // let URL = 'https://m2.live-resto.fr/apiv2e/orders/details';
+    // let URL = 'https://devgab.live-resto.fr/apiv2e/orders/details';
+
+
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+
+    let url = `${API_BASE_URL}/orders/details`;
+
+
+        await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -651,10 +667,23 @@ export function useCommandeTerminé() {
     let body = JSON.stringify({
       orderId: id,
     });
-    let URL = "https://devgab.live-resto.fr/apiv2e/orders/details";
+    // let URL = "https://m2.live-resto.fr/apiv2e/orders/details";
+    // let URL = "https://devgab.live-resto.fr/apiv2e/orders/details";
+
+
+
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+
+    let url = `${API_BASE_URL}/orders/details`;
     try {
       if (Token) {
-        await fetch(URL, {
+        await fetch(url, {
           method: "POST",
           headers: {
             accept: "application/json",

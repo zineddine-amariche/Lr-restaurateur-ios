@@ -8,6 +8,7 @@ import {
   PRINTER_FAILED,
 } from "../../../../Redux/Types/Printer";
 import { BluetoothEscposPrinter } from "@brooons/react-native-bluetooth-escpos-printer";
+import {API_URL_PROD, API_URL_DEV} from '@env';
 
 export function useInfo() {
   const { width } = useWindowDimensions();
@@ -36,12 +37,27 @@ export function useInfo() {
     let body = JSON.stringify({
       orderId: id,
     });
-    let URL = "https://devgab.live-resto.fr/apiv2e/orders/details";
+    // let URL = "https://m2.live-resto.fr/apiv2e/orders/details";
+    // let URL = "https://devgab.live-resto.fr/apiv2e/orders/details";
+
+
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+  
+  
+    let url = `${API_BASE_URL}/orders/details`;
+  
     try {
       if (Token) {
         await axios
-          .post(URL, body, configHead)
+          .post(url, body, configHead)
           .then((res) => {
+            // console.log('Data', Data)
             let Data = res.data.order;
             dispatch({ type: ORDER_SUCCESS, payload: Data });
           })

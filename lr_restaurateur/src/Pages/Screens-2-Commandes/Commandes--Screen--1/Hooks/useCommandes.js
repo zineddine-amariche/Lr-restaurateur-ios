@@ -9,6 +9,7 @@ import {
   DELETE_MESSAGES_PRINTER,
   PRINTER_FAILED,
 } from '../../../../Redux/Types/Printer';
+import {API_URL_PROD, API_URL_DEV} from '@env';
 
 export function useCommandes() {
   const dispatch = useDispatch();
@@ -77,11 +78,22 @@ export function useCommandes() {
     let body = JSON.stringify({
       orderId: id,
     });
-    let URL = 'https://devgab.live-resto.fr/apiv2e/orders/details';
+    // let URL = 'https://m2.live-resto.fr/apiv2e/orders/details';
+    // let URL = 'https://m2.live-resto.fr/apiv2e/orders/details';
+   
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+
+    let url = `${API_BASE_URL}/orders/details`;
     try {
       if (Token) {
         await axios
-          .post(URL, body, configHead)
+          .post(url, body, configHead)
           .then(res => {
             let Data = res.data.order;
 
@@ -418,7 +430,18 @@ export function useCommandes() {
   };
   // To cuisnie
   const ToCuisine = async id => {
-    const url = 'https://devgab.live-resto.fr/apiv2e/orders/update';
+    // const url = 'https://m2.live-resto.fr/apiv2e/orders/update';
+    // const url = 'https://devgab.live-resto.fr/apiv2e/orders/update';
+
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+
+    let url = `${API_BASE_URL}/orders/update`;
     try {
       dispatch({type: LOADING});
       await fetch(url, {
@@ -447,7 +470,20 @@ export function useCommandes() {
   };
   // Prete
   const ToDeliv = async id => {
-    const url = 'https://devgab.live-resto.fr/apiv2e/orders/update';
+    // const url = 'https://m2.live-resto.fr/apiv2e/orders/update';
+    // const url = 'https://devgab.live-resto.fr/apiv2e/orders/update';
+    
+    // m2.live-resto.fr
+
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+
+    let url = `${API_BASE_URL}/orders/update`;
     try {
       dispatch({type: LOADING});
       await fetch(url, {
@@ -492,10 +528,20 @@ export function useCommandes() {
     let body = JSON.stringify({
       orderId: id,
     });
-    let URL = 'https://devgab.live-resto.fr/apiv2e/orders/details';
+    // let URL = 'https://m2.live-resto.fr/apiv2e/orders/details';
+    // let URL = "https://devgab.live-resto.fr/apiv2e/orders/details";
+    let API_BASE_URL;
+
+    if (__DEV__) {
+      API_BASE_URL = API_URL_DEV;
+    } else {
+      API_BASE_URL = API_URL_PROD;
+    }
+
+    let url = `${API_BASE_URL}/orders/details`;
     try {
       if (Token) {
-        await fetch(URL, {
+        await fetch(url, {
           method: 'POST',
           headers: {
             accept: 'application/json',
