@@ -25,50 +25,32 @@ import store from './src/Redux/Store';
 
 const App = () => {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const {Token, establishments, login} = auth;
-
-  // console.log(auth,'auth')
-  // let configHead = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Accept-Language": "fr",
-  //     accept: "application/json",
-  //     Authorization: "Bearer " + Token,
-  //     login:login?.login,
-  //     establishment:establishments?.id
-  //   },
-  // };
 
   const [checkAsyc, setcheckAsyc] = useState(false);
 
+  const Fetching = async () => {
+    let login = await AsyncStorage.getItem('login');
+    let password = await AsyncStorage.getItem('password');
+    let configHead = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Language': 'fr',
+      },
+    };
+    if (login && password) {
+      let obj = {
+        password,
+        login,
+      };
+      dispatchLogin(dispatch, configHead, obj);
+      setcheckAsyc(true);
+    } else {
+      setcheckAsyc(true);
+    }
+  };
+
   useEffect(() => {
-    setTimeout(async () => {
-      try {
-        let login = await AsyncStorage.getItem('login');
-        let password = await AsyncStorage.getItem('password');
-
-        let configHead = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept-Language': 'fr',
-          },
-        };
-
-        let obj = {
-          password,
-          login,
-        };
-        dispatchLogin(dispatch, configHead, obj);
-
-        setcheckAsyc(true);
-      } catch (error) {
-        error,
-           dispatch({ type: LOGIN_FAILED, payload: "échec de connexion !" }),
-          console.log('error.local', error.message);
-        console.log('------33-', error);
-      }
-    }, 1000);
+    Fetching();
   }, []);
 
   const queryClient = new QueryClient();

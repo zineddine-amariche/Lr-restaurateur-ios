@@ -16,6 +16,7 @@ const initialState = {
   isPrinter: false,
   type: null,
   nombreTicket: 1,
+  name:''
 };
 
 const Printer = (state = initialState, action) => {
@@ -30,7 +31,8 @@ const Printer = (state = initialState, action) => {
       return {
         ...state,
         isPrinter: true,
-        boundAddress: payload,
+        boundAddress: payload.address,
+        name: payload.name,
         loading_printer: false,
       };
     case PRINTER_FAILED:

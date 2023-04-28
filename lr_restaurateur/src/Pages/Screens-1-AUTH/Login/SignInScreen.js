@@ -72,6 +72,9 @@ const SignInScreen = () => {
   //   requestPermissions();
   // }, []);
 
+  useEffect(() => {
+    requestPermissions();
+  }, []);
   const auth = useSelector((state) => state.auth);
   const { error, type } = auth;
   const dispatch = useDispatch();

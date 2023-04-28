@@ -74,7 +74,7 @@ const FormLogin = ({ FocusHandeler, isFocused }) => {
         }) => {
           const { login, password } = values;
           return (
-            <KeyboardAwareScrollView style={{ }} showsVerticalScrollIndicator={false}>
+            <KeyboardAwareScrollView style={{ }}  showsVerticalScrollIndicator={false}>
                 <PrimaryInput
                   Label={"Identifiant"}
                   placeholder="Saisissez votre identifiant"

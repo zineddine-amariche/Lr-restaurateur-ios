@@ -25,6 +25,7 @@ import Laoder from '../../../Components/Laoder';
 import {GetReservationsById} from '../../../Redux/Actions/Reservations/GetResrvation';
 import ButtonsTabsMenue from '../../../Components/Buttons/TabsButtons/ButtonsTabsMenue';
 import DateHandler from '../../../Components/date';
+import { GetAllCommandes } from '../../../Redux/Actions/Commandes';
 
 const Reservation = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -56,7 +57,9 @@ const Reservation = ({navigation, route}) => {
     if (!getReservationsByDate.isPikerOpend) {
       const interval = setInterval(() => {
         GetReservationsData(dispatch, configHead);
-      }, 20000);
+         GetAllCommandes(dispatch, configHead);
+
+      }, 30000);
       return () => clearInterval(interval);
     }
   }, [getReservationsByDate.isPikerOpend]);
@@ -170,7 +173,7 @@ const Reservation = ({navigation, route}) => {
               }}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <TextInput
-                  placeholder="Cherchcer"
+                  placeholder="Rechercher parmi la liste"
                   onChangeText={handleSearch}
                   value={search}
                   style={styles.Input}

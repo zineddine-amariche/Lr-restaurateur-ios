@@ -6,7 +6,7 @@ import {COLORS} from '../../../../../../constants/theme';
 
 const Asssocie = ({pairedDs, loading, _renderRow}) => {
 
-  console.log('pairedDs', pairedDs)
+  // console.log('pairedDs', pairedDs)
   return (
     <View style={styles.Dis}>
       <View style={styles.container_Appareils_Disponible}>

@@ -30,6 +30,7 @@ export const GetAllCommandes = async (dispatch, configHead) => {
     .get(url, configHead)
     .then(response => {
       let Commandes = response.data;
+      // console.log('Commandes', Commandes)
       return (
         Commandes,
         dispatch({type: COMMANDES_SUCCESS, payload: Commandes.orders}),

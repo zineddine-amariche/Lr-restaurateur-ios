@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import Header from '../../../../Components/Headers/header-1-Primary';
 import {COLORS} from '../../../../constants/theme';
@@ -38,10 +39,12 @@ const Parametre = ({navigation}) => {
   let name = login?.login;
   let token = login?.token;
 
+  // `https://m2.live-resto.fr/manager/payments/edit?token=${token}&establishment_id=${id}&login=${name}`;
 
-  let url = `https://m2.live-resto.fr/manager/payments/edit?token=${token}&establishment_id=${id}&login=${name}`;
+  let url = `https://m2.live-resto.fr/manager?token=${token}&establishment_id=${id}&login=${name}`;
+
   const handleExternalLink = () => {
-    console.log('url', url);
+    // console.log('url', url);
     if (id && name && token) {
       Linking.openURL(url);
     }
@@ -83,7 +86,7 @@ const Parametre = ({navigation}) => {
 
           <View style={styles.ContainerRow}>
             <Image source={Horaires} style={{marginRight: 10}} />
-            <Text style={styles.TextBtn}>Bouton paramètres de gestion</Text>
+            <Text style={styles.TextBtn}>Paramètres de gestion</Text>
           </View>
           <Image source={vector} />
         </TouchableOpacity>
@@ -91,7 +94,11 @@ const Parametre = ({navigation}) => {
         <TouchableOpacity
           style={styles.btn2}
           onPress={() => {
-            navigation.navigate('Imprission');
+            if (Platform.OS == 'ios') {
+              return;
+            } else {
+              navigation.navigate('Imprission');
+            }
           }}>
           <View style={styles.ContainerRow}>
             <Image source={Printer} style={{marginRight: 10}} />

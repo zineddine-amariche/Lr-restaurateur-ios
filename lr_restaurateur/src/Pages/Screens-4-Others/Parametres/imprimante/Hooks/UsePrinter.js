@@ -13,10 +13,13 @@ import {
   NativeEventEmitter,
   Platform,
 } from 'react-native';
+
+
 import {
   NBR_TICKET,
   PRINTER_CONNECTED,
   PRINTER_FAILED,
+  PRINTER_INFO,
   PRINTER_LOADING,
 } from '../../../../../Redux/Types/Printer';
 import {COLORS} from '../../../../../constants/theme';
@@ -34,96 +37,98 @@ export function UsePrinter() {
 
   const dispatch = useDispatch();
   const componentDidMount = async () => {
-  const isEnabled = await BluetoothManager?.checkBluetoothEnabled();
+    const isEnabled = await BluetoothManager?.checkBluetoothEnabled();
 
-
-
-  console.log('isEnabled', isEnabled)
-  // await BluetoothManager.checkBluetoothEnabled().then(
-  //    enabled => {
-  //      setBleOpend(Boolean(enabled));
-  //      setLoading(false);
-  //    },
-  //    err => {
-  //      err;
-  //    },
-  //  );
-    // console.log('isEnabled', isEnabled)
-
-    // if (isEnabled) {
-    //   setBleOpend(Boolean(isEnabled));
-    //   setLoading(false);
-
-    // }
-
-
-    // if (Platform.OS === 'ios') {
-    //    let bluetoothManagerEmitter = new NativeEventEmitter(BluetoothManager);
-    //    _listeners.push(
-    //      bluetoothManagerEmitter.addListener(
-    //        BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
-    //        rsp => {
-    //          _deviceAlreadPaired(rsp);
-    //        },
-    //      ),
-    //    );
-    //    _listeners.push(
-    //      bluetoothManagerEmitter.addListener(
-    //        BluetoothManager.EVENT_DEVICE_FOUND,
-    //        rsp => {
-    //          _deviceFoundEvent(rsp);
-    //        },
-    //      ),
-    //    );
-    //    _listeners.push(
-    //      bluetoothManagerEmitter.addListener(
-    //        BluetoothManager.EVENT_CONNECTION_LOST,
-    //        () => {
-    //          setName('');
-    //          setBoundAddress('');
-    //        },
-    //      ),
-    //    );
-    // } else if (Platform.OS === 'android') {
-    //   _listeners.push(
-    //     DeviceEventEmitter.addListener(
-    //       BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
-    //       rsp => {
-    //         _deviceAlreadPaired(rsp);
-    //       },
-    //     ),
+    // console.log('isEnabled', isEnabled);
+    //  await BluetoothManager.checkBluetoothEnabled().then(
+    //     enabled => {
+    //       setBleOpend(Boolean(enabled));
+    //       setLoading(false);
+    //     },
+    //     err => {
+    //       err;
+    //     },
     //   );
-    //   _listeners.push(
-    //     DeviceEventEmitter.addListener(
-    //       BluetoothManager.EVENT_DEVICE_FOUND,
-    //       rsp => {
-    //         console.log('rsp', rsp);
-    //         _deviceFoundEvent(rsp);
-    //       },
-    //     ),
-    //   );
-    //   _listeners.push(
-    //     DeviceEventEmitter.addListener(
-    //       BluetoothManager.EVENT_CONNECTION_LOST,
-    //       () => {
-    //         setName('');
-    //         setBoundAddress('');
-    //       },
-    //     ),
-    //   );
-    //   _listeners.push(
-    //     DeviceEventEmitter.addListener(
-    //       BluetoothManager.EVENT_BLUETOOTH_NOT_SUPPORT,
-    //       () => {
-    //         ToastAndroid.show(
-    //           'Device Not Support Bluetooth !',
-    //           ToastAndroid.LONG,
-    //         );
-    //       },
-    //     ),
-    //   );
-    // }
+    //  console.log('isEnabled', isEnabled)
+
+     if (isEnabled) {
+       setBleOpend(Boolean(isEnabled));
+    //
+       setLoading(false);
+
+    // 
+  }
+
+     if (Platform.OS === 'ios') {
+        let bluetoothManagerEmitter = new NativeEventEmitter(BluetoothManager);
+        _listeners.push(
+          bluetoothManagerEmitter.addListener(
+            BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
+            rsp => {
+              _deviceAlreadPaired(rsp);
+            },
+          ),
+        );
+        _listeners.push(
+          bluetoothManagerEmitter.addListener(
+            BluetoothManager.EVENT_DEVICE_FOUND,
+            rsp => {
+              _deviceFoundEvent(rsp);
+            },
+          ),
+        );
+        _listeners.push(
+          bluetoothManagerEmitter.addListener(
+            BluetoothManager.EVENT_CONNECTION_LOST,
+            () => {
+              setName('');
+              setBoundAddress('');
+            },
+          ),
+        );
+     } else if (Platform.OS === 'android') {
+       _listeners.push(
+         DeviceEventEmitter.addListener(
+           BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
+           rsp => {
+             _deviceAlreadPaired(rsp);
+           },
+         ),
+       );
+       _listeners.push(
+         DeviceEventEmitter.addListener(
+           BluetoothManager.EVENT_DEVICE_FOUND,
+           rsp => {
+            //  console.log('rsp', rsp);
+             _deviceFoundEvent(rsp);
+           },
+         ),
+       );
+       _listeners.push(
+         DeviceEventEmitter.addListener(
+           BluetoothManager.EVENT_CONNECTION_LOST,
+           () => {
+             setName('');
+             setBoundAddress('');
+           },
+         ),
+       );
+       _listeners.push(
+         DeviceEventEmitter.addListener(
+           BluetoothManager.EVENT_BLUETOOTH_NOT_SUPPORT,
+           () => {
+             ToastAndroid.show(
+               'Device Not Support Bluetooth !',
+               ToastAndroid.LONG,
+             );
+           },
+         ),
+       );
+     }
   };
+
+
+
   const _deviceAlreadPaired = rsp => {
     var ds = null;
     if (typeof rsp.devices == 'object') {
@@ -140,7 +145,7 @@ export function UsePrinter() {
     }
   };
   const _deviceFoundEvent = rsp => {
-    alert(JSON.stringify(rsp));
+    // alert(JSON.stringify(rsp));
     var r = null;
     try {
       if (typeof rsp.device == 'object') {
@@ -171,7 +176,7 @@ export function UsePrinter() {
   const _scan = async () => {
     await BluetoothManager.scanDevices().then(
       s => {
-        console.log('s', s);
+        // console.log('s', s);
         var ss = s;
         var found = ss.found;
         try {
@@ -183,7 +188,7 @@ export function UsePrinter() {
         if (found && found.length) {
           fds = found;
         }
-        console.log('fds', fds);
+        // console.log('fds', fds);
         setFoundDs(fds);
         setLoading(false);
       },
@@ -195,6 +200,51 @@ export function UsePrinter() {
         // alert('error' + JSON.stringify(er));
       },
     );
+  };
+
+  const OnSubmitConnect = async (row) => {
+    setLoading(true);
+    dispatch({type: PRINTER_LOADING});
+    try {
+      let s = await BluetoothManager.connect(row.address);
+      if (s) {
+        setLoading(false);
+        setBoundAddress(row.address);
+        setName(row.name) || 'UNKNOWN';
+
+   
+        await AsyncStorage.setItem('lastDevice', JSON.stringify(row.address));
+        await AsyncStorage.setItem('lastDeviceName', JSON.stringify(row.name));
+      }
+
+      let obj ={
+        name:row.name,
+        address:row.address
+      }
+      dispatch({type: PRINTER_CONNECTED, payload: obj});
+    } catch (error) {
+     alert("Unable to connect device");
+      dispatch({type: PRINTER_FAILED, payload: "Unable to connect device"});
+      setLoading(false);
+    }
+
+    // BluetoothManager.connect(row.address).then(
+    //   s => {
+    //     setLoading(false);
+    //     setBoundAddress(row.address);
+    //     setName(row.name) || 'UNKNOWN';
+    //   await  AsyncStorage.setItem(
+    //       'lastDevice',
+    //       JSON.stringify(row.address),
+    //     );
+    //     dispatch({type: PRINTER_CONNECTED, payload: row.address});
+    //   },
+    //   e => {
+    //     dispatch({type: PRINTER_FAILED, payload: e});
+    //     setLoading(false);
+    //     alert(e);
+    //   },
+    // );
   };
 
   const _renderRow = rows => {
@@ -217,28 +267,7 @@ export function UsePrinter() {
               paddingHorizontal: 10,
               width: '100%',
             }}
-            onPress={() => {
-              setLoading(true);
-              dispatch({type: PRINTER_LOADING});
-
-              BluetoothManager.connect(row.address).then(
-                s => {
-                  setLoading(false);
-                  setBoundAddress(row.address);
-                  setName(row.name) || 'UNKNOWN';
-                  AsyncStorage.setItem(
-                    'lastDevice',
-                    JSON.stringify(row.address),
-                  );
-                  dispatch({type: PRINTER_CONNECTED, payload: row.address});
-                },
-                e => {
-                  dispatch({type: PRINTER_FAILED, payload: e});
-                  setLoading(false);
-                  alert(e);
-                },
-              );
-            }}>
+            onPress={()=>OnSubmitConnect(row)}>
             <View
               style={{
                 flexDirection: 'row',
@@ -322,6 +351,18 @@ export function UsePrinter() {
     }
   };
 
+  const reconnect =(row)=>{
+    setLoading(false);
+    setBoundAddress(row.address);
+    setName(row.name) || 'UNKNOWN'; 
+    dispatch({ type: PRINTER_INFO, payload: JSON.parse(row.address) });
+    dispatch({
+      type: PRINTER_CONNECTED,
+      payload:  JSON.parse(row.address),
+    });
+
+  }
+
   return {
     pairedDs,
     foundDs,
@@ -344,5 +385,6 @@ export function UsePrinter() {
     moin,
     _deviceAlreadPaired,
     _deviceFoundEvent,
+    reconnect
   };
 }

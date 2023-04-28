@@ -136,6 +136,76 @@ export function useCommandes() {
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
+          // await BluetoothEscposPrinter.printText(
+          //   'Client : ' +
+          //     item.delivery.full_name +
+          //     '  --  ' +
+          //     item.delivery.phone +
+          //     '\r\n',
+          //   {},
+          // );
+          // await BluetoothEscposPrinter.printText(
+          //   ' Adresse : ' + item.delivery.address + '  \r\n',
+          //   {},
+          // );
+
+          // item?.delivery.address_extra !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     ' Addresse_extra : ' + item?.delivery.address_extra + '  \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.city !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'City : ' +
+          //       item?.delivery.city +
+          //       ' - ' +
+          //       item?.delivery.postal +
+          //       ' \r\n',
+          //     {},
+          //   ));
+
+          // item?.delivery.floor !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'etage : ' + item?.delivery.floor + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.residence !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'residence : ' + item?.delivery.residence + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.building !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'building : ' + item?.delivery.building + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.apartment !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'apartment : ' + item?.delivery.apartment + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_doorbell !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_doorbell : ' + item?.delivery.code_doorbell + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_portal !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_portal : ' + item?.delivery.code_portal + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_building !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_building : ' + item?.delivery.code_building + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_elevator !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_elevator : ' + item?.delivery.code_elevator + ' \r\n',
+          //     {},
+          //   ));
+
+
           await BluetoothEscposPrinter.printText(
             'Client : ' +
               item.delivery.full_name +
@@ -145,13 +215,44 @@ export function useCommandes() {
             {},
           );
           await BluetoothEscposPrinter.printText(
-            ' Addresse : ' + item.delivery.address + '  \r\n',
+            ' Adresse : ' + item.delivery.address + '  \r\n',
             {},
           );
-          await BluetoothEscposPrinter.printText(
-            'Ville : ' + item.delivery.city + ' \r\n',
-            {},
-          );
+
+          item?.delivery.city !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              ' ' +
+                item?.delivery.city +
+                ' - ' +
+                item?.delivery.postal +
+                ' \r\n',
+              {},
+            ));
+          item?.delivery.floor !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Etage : ' + item?.delivery.floor + ' \r\n',
+              {
+                encoding: 'UTF-8',
+              },
+            ));
+          item?.delivery.building !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Immeuble : ' + item?.delivery.building + ' \r\n',
+              {
+                encoding: 'UTF-8',
+              },
+            ));
+          item?.delivery.code_doorbell !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Code sonette: ' + item?.delivery.code_doorbell + ' \r\n',
+              {},
+            ));
+          item?.delivery.code_elevator !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Code ascenceur : ' + item?.delivery.code_elevator + ' \r\n',
+              {},
+            ));
+
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
@@ -205,7 +306,7 @@ export function useCommandes() {
                           BluetoothEscposPrinter.ALIGN.RIGHT,
                         ],
                         [
-                          '' + 'extars' + ' ',
+                          ext.option + ' :  ',
                           '' + ext.choice + '',
                           '' + ext.price + ' €',
                         ],
@@ -245,19 +346,25 @@ export function useCommandes() {
               fonttype: 1,
             },
           );
-          await BluetoothEscposPrinter.printColumn(
-            [20, 2, 10],
-            [
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.RIGHT,
-            ],
-            ['Moyen de paiement ', ':', '' + item.payments[0].title + ''],
-            {
-              encoding: 'windows-1254',
-              codepage: 25,
-            },
-          );
+          // await BluetoothEscposPrinter.printColumn(
+          //   [20, 2, 10],
+          //   [
+          //     BluetoothEscposPrinter.ALIGN.LEFT,
+          //     BluetoothEscposPrinter.ALIGN.LEFT,
+          //     BluetoothEscposPrinter.ALIGN.RIGHT,
+          //   ],
+          //   ['Moyen de paiement ', ':', '' + item.payments[0].title + ''],
+          //   item?.payments[1].title &&  ['                  ', ':', '' + item?.payments[1].title + ''],
+          //   item?.payments[2].title &&  ['                  ', ':', '' + item?.payments[2].title + ''],
+          //   item?.payments[3].title &&  ['                  ', ':', '' + item?.payments[3].title + ''],
+          //   {
+          //     encoding: 'windows-1254',
+          //     codepage: 25,
+          //   },
+          // );
+
+
+
           await BluetoothEscposPrinter.printColumn(
             [20, 2, 10],
             [
@@ -313,6 +420,48 @@ export function useCommandes() {
               heigthtimes: 1,
             },
           );
+
+
+          await BluetoothEscposPrinter.printText('\r\n', {});
+
+          await BluetoothEscposPrinter.printColumn(
+            [20, 2, 10],
+            [
+              BluetoothEscposPrinter.ALIGN.LEFT,
+              BluetoothEscposPrinter.ALIGN.LEFT,
+              BluetoothEscposPrinter.ALIGN.RIGHT,
+            ],
+            ['Moyen de paiement ', ':', ''],
+            {
+              encoding: 'windows-1254',
+              codepage: 25,
+            },
+          );
+          {
+            item?.payments && item?.payments.length > 0
+              ? item?.payments.map(i => {
+                  return BluetoothEscposPrinter.printColumn(
+                    [38, 0, 8],
+                    [
+                      BluetoothEscposPrinter.ALIGN.LEFT,
+                      BluetoothEscposPrinter.ALIGN.CENTER,
+                      BluetoothEscposPrinter.ALIGN.RIGHT,
+                    ],
+                    [
+                      '' + i.title + ' :',
+                      '',
+                      '' + i._joinData.amount.toFixed(2) + ' €',
+                    ],
+                    {
+                      encoding: 'windows-1250',
+                      codepage: 25,
+                      widthtimes: 0.75,
+                      heigthtimes: 0.75,
+                    },
+                  );
+                })
+              : await BluetoothEscposPrinter.printText(' \r\n', {});
+          }
           await BluetoothEscposPrinter.printText('\r\n', {});
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
@@ -436,23 +585,120 @@ export function useCommandes() {
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
+          // await BluetoothEscposPrinter.printText(
+          //   'Client : ' +
+          //     item?.delivery.full_name +
+          //     '  --  ' +
+          //     item?.delivery.phone +
+          //     '\r\n',
+          //   {},
+          // );
+          // await BluetoothEscposPrinter.printText(
+          //   ' Adresse : ' + item?.delivery.address + '  \r\n',
+          //   {},
+          // );
+          // item?.delivery.address_extra !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     ' Addresse_extra : ' + item?.delivery.address_extra + '  \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.city !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'City : ' +
+          //       item?.delivery.city +
+          //       ' - ' +
+          //       item?.delivery.postal +
+          //       ' \r\n',
+          //     {},
+          //   ));
+
+          // item?.delivery.floor !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'etage : ' + item?.delivery.floor + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.residence !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'residence : ' + item?.delivery.residence + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.building !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'building : ' + item?.delivery.building + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.apartment !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'apartment : ' + item?.delivery.apartment + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_doorbell !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_doorbell : ' + item?.delivery.code_doorbell + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_portal !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_portal : ' + item?.delivery.code_portal + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_building !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_building : ' + item?.delivery.code_building + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_elevator !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_elevator : ' + item?.delivery.code_elevator + ' \r\n',
+          //     {},
+          //   ));
+
           await BluetoothEscposPrinter.printText(
             'Client : ' +
-              item?.delivery.full_name +
+              item.delivery.full_name +
               '  --  ' +
-              item?.delivery.phone +
+              item.delivery.phone +
               '\r\n',
             {},
           );
           await BluetoothEscposPrinter.printText(
-            ' Addresse : ' + item?.delivery.address + '  \r\n',
-            {},
-          );
-          await BluetoothEscposPrinter.printText(
-            'Ville : ' + item?.delivery.city + ' \r\n',
+            ' Adresse : ' + item.delivery.address + '  \r\n',
             {},
           );
 
+          item?.delivery.city !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              ' ' +
+                item?.delivery.city +
+                ' - ' +
+                item?.delivery.postal +
+                ' \r\n',
+              {},
+            ));
+          item?.delivery.floor !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Etage : ' + item?.delivery.floor + ' \r\n',
+              {
+                encoding: 'UTF-8',
+              },
+            ));
+          item?.delivery.building !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Immeuble : ' + item?.delivery.building + ' \r\n',
+              {
+                encoding: 'UTF-8',
+              },
+            ));
+          item?.delivery.code_doorbell !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Code sonette: ' + item?.delivery.code_doorbell + ' \r\n',
+              {},
+            ));
+          item?.delivery.code_elevator !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Code ascenceur : ' + item?.delivery.code_elevator + ' \r\n',
+              {},
+            ));
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
@@ -493,7 +739,7 @@ export function useCommandes() {
                         BluetoothEscposPrinter.ALIGN.LEFT,
                       ),
                       BluetoothEscposPrinter.printText(
-                        ' ' + ext.choice + '\r\n',
+                        ext.option + ' :  ' + ext.choice + '\r\n',
                         {
                           encoding: 'windows-1254',
                           codepage: 25,
@@ -529,19 +775,24 @@ export function useCommandes() {
             },
           );
 
-          await BluetoothEscposPrinter.printColumn(
-            [20, 2, 10],
-            [
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.RIGHT,
-            ],
-            ['Moyen de paiement ', ':', '' + item?.payments[0].title + ''],
-            {
-              encoding: 'windows-1250',
-              codepage: 25,
-            },
-          );
+        
+
+          // await BluetoothEscposPrinter.printColumn(
+          //   [20, 2, 10],
+          //   [
+          //     BluetoothEscposPrinter.ALIGN.LEFT,
+          //     BluetoothEscposPrinter.ALIGN.LEFT,
+          //     BluetoothEscposPrinter.ALIGN.RIGHT,
+          //   ],
+          //   ['Moyen de paiement ', ':', '' + item?.payments[0].title + ''],
+          //   item?.payments[1].title &&  ['                  ', ':', '' + item?.payments[1].title + ''],
+          //   item?.payments[2].title &&  ['                  ', ':', '' + item?.payments[2].title + ''],
+          //   item?.payments[3].title &&  ['                  ', ':', '' + item?.payments[3].title + ''],
+          //   {
+          //     encoding: 'windows-1250',
+          //     codepage: 25,
+          //   },
+          // );
           await BluetoothEscposPrinter.printColumn(
             [20, 2, 10],
             [
@@ -589,6 +840,46 @@ export function useCommandes() {
               heigthtimes: 1,
             },
           );
+          await BluetoothEscposPrinter.printText('\r\n', {});
+
+          await BluetoothEscposPrinter.printColumn(
+            [20, 2, 10],
+            [
+              BluetoothEscposPrinter.ALIGN.LEFT,
+              BluetoothEscposPrinter.ALIGN.LEFT,
+              BluetoothEscposPrinter.ALIGN.RIGHT,
+            ],
+            ['Moyen de paiement ', ':', ''],
+            {
+              encoding: 'windows-1254',
+              codepage: 25,
+            },
+          );
+          {
+            item?.payments && item?.payments.length > 0
+              ? item?.payments.map(i => {
+                  return BluetoothEscposPrinter.printColumn(
+                    [38, 0, 8],
+                    [
+                      BluetoothEscposPrinter.ALIGN.LEFT,
+                      BluetoothEscposPrinter.ALIGN.CENTER,
+                      BluetoothEscposPrinter.ALIGN.RIGHT,
+                    ],
+                    [
+                      '' + i.title + ' :',
+                      '',
+                      '' + i._joinData.amount.toFixed(2) + ' €',
+                    ],
+                    {
+                      encoding: 'windows-1250',
+                      codepage: 25,
+                      widthtimes: 0.75,
+                      heigthtimes: 0.75,
+                    },
+                  );
+                })
+              : await BluetoothEscposPrinter.printText(' \r\n', {});
+          }
 
           await BluetoothEscposPrinter.printText(
             '_________________________________\r\n',

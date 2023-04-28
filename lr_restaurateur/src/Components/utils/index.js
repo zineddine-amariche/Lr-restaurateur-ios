@@ -1,6 +1,7 @@
 import { Platform, Text } from "react-native";
 import React from "react";
-import { COLORS } from "../../../constants/theme";
+import { COLORS } from "../../constants/theme";
+// import { COLORS } from "../../../constants/theme";
 
 export const Txt = ({
   fontSize,

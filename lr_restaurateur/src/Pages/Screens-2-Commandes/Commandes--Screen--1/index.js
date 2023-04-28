@@ -3,7 +3,7 @@ import {styles} from './Hooks/styles';
 import {View, StatusBar, Vibration, SafeAreaView} from 'react-native';
 import Header from '../../../Components/Headers/header-1-Primary';
 import {COLORS} from '../../../constants/theme';
-import {CloseCommandes, GetAllCommandes} from '../../../Redux/Actions/Commandes';
+import { GetAllCommandes} from '../../../Redux/Actions/Commandes';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {useCommandes} from './Hooks/useCommandes';
@@ -17,7 +17,7 @@ import ButtonsTabsMenue from '../../../Components/Buttons/TabsButtons/ButtonsTab
 import Timer from '../../../Components/Timer';
 import {startTimer} from '../../../Redux/Actions/Timer';
 import {CHANGE_STYLES} from '../../../Redux/Types/Timer';
-import { UseTime } from '../../../Components/Timer/Hooks/useTime';
+import { GetReservationsData } from '../../../Redux/Actions/Reservations/reservationsActions';
 
 
 const LazySectionTYpe = React.lazy(() => import('./Components/SectionType'));
@@ -30,12 +30,14 @@ const Commandes = ({navigation}) => {
   const isFocused = useIsFocused();
   const {Token} = useSelector(state => state.auth);
   const {error, type} = useSelector(state => state.Printer);
+
   const {status_active, toComfirm, others} = useSelector(
     state => state.Commandes,
   );
   const {isTimerActive, second_selected} = useSelector(
     state => state.TimerSlice,
   );
+
 
   const {
     mergedArray,
@@ -64,19 +66,21 @@ const Commandes = ({navigation}) => {
             if (!toComfirm) {
               dispatch({type: LOADING});
             }
-
             GetAllCommandes(dispatch, configHead);
+            GetReservationsData(dispatch, configHead);
+
           }
         } catch (e) {
           console.log('------22-', e);
         }
       }
-    }, 20000);
+    }, 30000);
     return () => {
       clearInterval(interval);
     };
 
   }, [Token, isFocused, refresh]);
+
 
   var Filter = mergedArray.filter(data => {
     return data.kitchenstate_id == 20;

@@ -10,6 +10,7 @@ import {
   PRINTER_FAILED,
 } from '../../../../Redux/Types/Printer';
 import {API_URL_PROD, API_URL_DEV} from '@env';
+import {GetAllCommandes} from '../../../../Redux/Actions/Commandes';
 
 export function useCommandes() {
   const dispatch = useDispatch();
@@ -30,35 +31,7 @@ export function useCommandes() {
   const mergedArray = [...toComfirm, ...others];
   const {Token, establishments, user, login} = auth;
   const {width} = useWindowDimensions();
-  // console.log(establishments?.id,'estaId')
-  // console.log(login?.login,'login')
-  // console.log(user,'user')
-  // let login = AsyncStorage.getItem('login');
-  // let establishment_id = AsyncStorage.getItem('_id');
-  // const [login, setLogin] = useState('')
-  // const [establishments_id, setEstablishmentId] = useState('')
-  // const [token, setToken] = useState('')
 
-  //   useEffect(() => {
-  //     setTimeout(async () => {
-  //       try {
-  //     let login = await AsyncStorage.getItem('login');
-  //     let establishment_id=await AsyncStorage.getItem('_id')
-  //     let token= await AsyncStorage.getItem('token')
-  //     if (login && token && establishment_id) {
-  //      setLogin(login);
-  //      setEstablishmentId(establishment_id)
-  //      setToken(token)
-  //     }
-
-  //   } catch (error) {
-  //     error,
-  //       // dispatch({ type: LOGIN_FAILED, payload: "échec de connexion !" }),
-  //       console.log('error login commande header', error.message);
-  //     console.log('error', error);
-  //   }
-  // }, 1000);
-  //   }, []);
 
   let configHead = {
     headers: {
@@ -80,7 +53,7 @@ export function useCommandes() {
     });
     // let URL = 'https://m2.live-resto.fr/apiv2e/orders/details';
     // let URL = 'https://m2.live-resto.fr/apiv2e/orders/details';
-   
+
     let API_BASE_URL;
 
     if (__DEV__) {
@@ -128,6 +101,7 @@ export function useCommandes() {
         // console.log(`body print`, i);
         //  console.log(`ordersById`, ordersById);
         //  console.log('nombreArticl', nombreArticl)
+        // console.log('item', item);
         try {
           await BluetoothEscposPrinter.printerInit();
           await BluetoothEscposPrinter.printerLeftSpace(0);
@@ -176,32 +150,131 @@ export function useCommandes() {
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
+          // await BluetoothEscposPrinter.printText(
+          //   'Client : ' +
+          //     item?.delivery.full_name +
+          //     '  --  ' +
+          //     item?.delivery.phone +
+          //     '\r\n',
+          //   {},
+          // );
+          // await BluetoothEscposPrinter.printText(
+          //   ' Adresse : ' + item?.delivery.address + '  \r\n',
+          //   {},
+          // );
+          // item?.delivery.address_extra !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     ' Addresse_extra : ' + item?.delivery.address_extra + '  \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.city !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'City : ' +
+          //       item?.delivery.city +
+          //       ' - ' +
+          //       item?.delivery.postal +
+          //       ' \r\n',
+          //     {},
+          //   ));
+
+          // item?.delivery.floor !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'etage : ' + item?.delivery.floor + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.residence !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'residence : ' + item?.delivery.residence + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.building !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'building : ' + item?.delivery.building + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.apartment !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'apartment : ' + item?.delivery.apartment + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_doorbell !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_doorbell : ' + item?.delivery.code_doorbell + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_portal !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_portal : ' + item?.delivery.code_portal + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_building !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_building : ' + item?.delivery.code_building + ' \r\n',
+          //     {},
+          //   ));
+          // item?.delivery.code_elevator !== '' &&
+          //   (await BluetoothEscposPrinter.printText(
+          //     'code_elevator : ' + item?.delivery.code_elevator + ' \r\n',
+          //     {},
+          //   ));
+
+          // await BluetoothEscposPrinter.printerAlign(
+          //   BluetoothEscposPrinter.ALIGN.CENTER,
+          // );
+          // await BluetoothEscposPrinter.printText(
+          //   '______________________________________\r\n',
+          //   {
+          //     fonttype: 1,
+          //   },
+          // );
+
           await BluetoothEscposPrinter.printText(
             'Client : ' +
-              item?.delivery.full_name +
+              item.delivery.full_name +
               '  --  ' +
-              item?.delivery.phone +
+              item.delivery.phone +
               '\r\n',
             {},
           );
           await BluetoothEscposPrinter.printText(
-            ' Addresse : ' + item?.delivery.address + '  \r\n',
-            {},
-          );
-          await BluetoothEscposPrinter.printText(
-            'Ville : ' + item?.delivery.city + ' \r\n',
+            ' Adresse : ' + item.delivery.address + '  \r\n',
             {},
           );
 
-          await BluetoothEscposPrinter.printerAlign(
-            BluetoothEscposPrinter.ALIGN.CENTER,
-          );
-          await BluetoothEscposPrinter.printText(
-            '______________________________________\r\n',
-            {
-              fonttype: 1,
-            },
-          );
+          item?.delivery.city !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              ' ' +
+                item?.delivery.city +
+                ' - ' +
+                item?.delivery.postal +
+                ' \r\n',
+              {},
+            ));
+          item?.delivery.floor !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Etage : ' + item?.delivery.floor + ' \r\n',
+              {
+                encoding: 'UTF-8',
+              },
+            ));
+          item?.delivery.building !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Immeuble : ' + item?.delivery.building + ' \r\n',
+              {
+                encoding: 'UTF-8',
+              },
+            ));
+          item?.delivery.code_doorbell !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Code sonette: ' + item?.delivery.code_doorbell + ' \r\n',
+              {},
+            ));
+          item?.delivery.code_elevator !== '' &&
+            (await BluetoothEscposPrinter.printText(
+              'Code ascenceur : ' + item?.delivery.code_elevator + ' \r\n',
+              {},
+            ));
+
           await BluetoothEscposPrinter.printText('\r\n', {});
 
           {
@@ -233,7 +306,7 @@ export function useCommandes() {
                         BluetoothEscposPrinter.ALIGN.LEFT,
                       ),
                       BluetoothEscposPrinter.printText(
-                        '' + ext.choice + '' + '' + '\r\n',
+                        ext.option + ' :  ' + ext.choice + '' + '' + '\r\n',
                         {
                           encoding: 'windows-1254',
                           codepage: 25,
@@ -268,20 +341,8 @@ export function useCommandes() {
               fonttype: 1,
             },
           );
+          await BluetoothEscposPrinter.printText('\r\n', {});
 
-          await BluetoothEscposPrinter.printColumn(
-            [20, 2, 10],
-            [
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.RIGHT,
-            ],
-            ['Moyen de paiement ', ':', '' + item?.payments[0].title + ''],
-            {
-              encoding: 'windows-1250',
-              codepage: 25,
-            },
-          );
           await BluetoothEscposPrinter.printColumn(
             [20, 2, 10],
             [
@@ -329,6 +390,46 @@ export function useCommandes() {
               heigthtimes: 1,
             },
           );
+          await BluetoothEscposPrinter.printText('\r\n', {});
+
+          await BluetoothEscposPrinter.printColumn(
+            [20, 2, 10],
+            [
+              BluetoothEscposPrinter.ALIGN.LEFT,
+              BluetoothEscposPrinter.ALIGN.LEFT,
+              BluetoothEscposPrinter.ALIGN.RIGHT,
+            ],
+            ['Moyen de paiement ', ':', ''],
+            {
+              encoding: 'windows-1254',
+              codepage: 25,
+            },
+          );
+          {
+            item?.payments && item?.payments.length > 0
+              ? item?.payments.map(i => {
+                  return BluetoothEscposPrinter.printColumn(
+                    [38, 0, 8],
+                    [
+                      BluetoothEscposPrinter.ALIGN.LEFT,
+                      BluetoothEscposPrinter.ALIGN.CENTER,
+                      BluetoothEscposPrinter.ALIGN.RIGHT,
+                    ],
+                    [
+                      '' + i.title + ' :',
+                      '',
+                      '' + i._joinData.amount.toFixed(2) + ' €',
+                    ],
+                    {
+                      encoding: 'windows-1250',
+                      codepage: 25,
+                      widthtimes: 0.75,
+                      heigthtimes: 0.75,
+                    },
+                  );
+                })
+              : await BluetoothEscposPrinter.printText(' \r\n', {});
+          }
 
           await BluetoothEscposPrinter.printText(
             '_________________________________\r\n',
@@ -383,21 +484,23 @@ export function useCommandes() {
         // console.log('Addresse', item?.delivery.address)
         // console.log('Ville', item?.delivery.city)
 
-        // if (ordersById && ordersById.length > 0) {
-        //   ordersById?.map((i) => {
-        //     console.log("----------------------",  i?._joinData.quantity, "  ", i.title , "  ", i?._joinData.price.toFixed(2));
-        //     //  i._joinData.extras && console.log('----------------------', i._joinData.extras);
-        //     i._joinData.extras &&
-        //       i._joinData.extras.map((ext) => {
-        //         return console.log(
-        //           "-----------EXTRAS-----------",
-        //           ext.choice,
-        //           "prix ****",
-        //           ext.price
-        //         );
-        //       });
-        //   });
-        // }
+        //  if (ordersById && ordersById.length > 0) {
+        //    ordersById?.map((i) => {
+        //      console.log("----------------------",  i?._joinData.quantity, "  ", i.title , "  ", i?._joinData.price.toFixed(2));
+        //       //  i._joinData.extras && console.log('----------------------', i._joinData.extras);
+        //      i._joinData.extras &&
+        //        i._joinData.extras.map((ext) => {
+        //          return console.log(
+        //            "-----------EXTRAS-----------",
+        //            ext.option,
+
+        //            ext.choice,
+        //            "prix ****",
+        //            ext.price
+        //          );
+        //        });
+        //    });
+        //  }
 
         // console.log( " Nombre d'articles: " , nombreArticl)
         // console.log("Moyen de paiment : ", item.payments[0].title);
@@ -413,6 +516,12 @@ export function useCommandes() {
 
         // //  console.log("item.discount", item.discount);
         //  console.log("is Done .... ", isDone?'cut' :"next");
+        console.log(
+          '' + ' amount',
+          item?.payments[0].title,
+          ':',
+          item?.payments[0]._joinData.amount,
+        );
       }
       if (isDone) {
         await BluetoothEscposPrinter.cutOnePoint();
@@ -463,6 +572,7 @@ export function useCommandes() {
         .then(response => {
           console.log('response||||', response);
           dispatch({type: SUCCESS});
+          GetAllCommandes(dispatch, configHead);
         });
     } catch (error) {
       console.log(error);
@@ -472,7 +582,7 @@ export function useCommandes() {
   const ToDeliv = async id => {
     // const url = 'https://m2.live-resto.fr/apiv2e/orders/update';
     // const url = 'https://devgab.live-resto.fr/apiv2e/orders/update';
-    
+
     // m2.live-resto.fr
 
     let API_BASE_URL;
@@ -505,6 +615,7 @@ export function useCommandes() {
         .then(response => {
           console.log('response||||', response);
           dispatch({type: SUCCESS});
+          GetAllCommandes(dispatch, configHead);
         });
     } catch (error) {
       console.log(error);
@@ -580,7 +691,7 @@ export function useCommandes() {
       GetOrdersOnClick(id, item);
       setTimeout(() => {
         ToCuisine(id);
-        // setLoading(false);
+        setLoading(false);
       }, 4000);
     } else {
       setLoading(true);
@@ -972,3 +1083,36 @@ export function useCommandes() {
 //     i++;
 //   } while (i <= nombreTicket);
 // };
+
+
+
+
+  // console.log(establishments?.id,'estaId')
+  // console.log(login?.login,'login')
+  // console.log(user,'user')
+  // let login = AsyncStorage.getItem('login');
+  // let establishment_id = AsyncStorage.getItem('_id');
+  // const [login, setLogin] = useState('')
+  // const [establishments_id, setEstablishmentId] = useState('')
+  // const [token, setToken] = useState('')
+
+  //   useEffect(() => {
+  //     setTimeout(async () => {
+  //       try {
+  //     let login = await AsyncStorage.getItem('login');
+  //     let establishment_id=await AsyncStorage.getItem('_id')
+  //     let token= await AsyncStorage.getItem('token')
+  //     if (login && token && establishment_id) {
+  //      setLogin(login);
+  //      setEstablishmentId(establishment_id)
+  //      setToken(token)
+  //     }
+
+  //   } catch (error) {
+  //     error,
+  //       // dispatch({ type: LOGIN_FAILED, payload: "échec de connexion !" }),
+  //       console.log('error login commande header', error.message);
+  //     console.log('error', error);
+  //   }
+  // }, 1000);
+  //   }, []);

@@ -25,7 +25,7 @@ export const dispatchLogin = async (dispatch, configHead, values) => {
     API_BASE_URL = API_URL_PROD;
   }
   let url = `${API_BASE_URL}/establishments/authenticate`;
-
+// console.log('url', url)
   dispatch({type: LOADING});
   await axios
     .post(url, values, configHead)
