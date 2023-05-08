@@ -155,7 +155,7 @@ export function useInfo() {
             {},
           );
           await BluetoothEscposPrinter.printText(
-            ' Adresse : ' + item.delivery.address + '  \r\n',
+            ' Adresse : '+ item?.delivery.postal+ ' - ' + item.delivery.address + '  \r\n',
             {},
           );
 
@@ -163,8 +163,6 @@ export function useInfo() {
             (await BluetoothEscposPrinter.printText(
               ' ' +
                 item?.delivery.city +
-                ' - ' +
-                item?.delivery.postal +
                 ' \r\n',
               {},
             ));
@@ -419,7 +417,7 @@ export function useInfo() {
         // }
         // console.log('#', item?.id);
         // console.log('Client :', item?.delivery.full_name);
-        // console.log('Addresse', item?.delivery.address);
+      //  console.log('Addresse',   item?.delivery.postal, item.delivery.address );
         // console.log('Ville', item?.delivery.city);
 
         // if (orders && orders.length > 0) {

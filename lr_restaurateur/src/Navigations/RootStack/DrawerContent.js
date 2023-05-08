@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Linking} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Avatar, Title, Caption, Drawer, Text, Switch} from 'react-native-paper';
 
@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import jour from '../../assets/Drawer/Calendrier.png';
 import terminer from '../../assets/Drawer/Terminée.png';
 import params from '../../assets/Drawer/Parametres.png';
+import gestion from '../../assets/Drawer/gestion.png';
 import deconner from '../../assets/Drawer/Deconnexion.png';
 import aide from '../../assets/Drawer/Aide.png';
 import {LOGOUT} from '../../Redux/Types/Login';
@@ -25,6 +26,13 @@ export function DrawerContent(props) {
   let key = ['password', 'login'];
 
   const dispatch = useDispatch();
+
+  const getReservations = useSelector(state => state.auth);
+
+  const {login} = getReservations;
+  let id = login?.establishments[0].id;
+  let name = login?.login;
+  let token = login?.token;
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -68,6 +76,18 @@ export function DrawerContent(props) {
             />
 
             <DrawerItem
+              icon={({color, size}) => <Image source={gestion}  style={{height:25,width:25}}/>}
+              label="Paramètres de gestion"
+              onPress={() => {
+                // props.navigation.navigate('Parametre');
+                // let url ="https://m2.live-resto.fr/manager/payments/edit?token=132e2b52-fe34-4a96-a6a1-1071966761cd&establishment_id=3&login=gabriel"
+  
+                let url = `https://m2.live-resto.fr/manager?token=${token}&establishment_id=${id}&login=${name}`;
+                Linking.openURL(url);
+
+              }}
+            />
+              <DrawerItem
               icon={({color, size}) => <Image source={params} />}
               label="Paramètres"
               onPress={() => {

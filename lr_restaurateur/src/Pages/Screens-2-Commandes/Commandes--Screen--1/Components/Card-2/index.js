@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import { styles } from "./styles";
 import group from "../../../../../assets/Accueil/Group149.png";
 import group155 from "../../../../../assets/Accueil/Group151.png";
-import group156 from "../../../../../assets/Accueil/Group156.png";
+import group156 from "../../../../../assets/Accueil/Couleur=Jaune.png";
 import { useCommandes } from "../../Hooks/useCommandes";
 import { COLORS } from "../../../../../constants/theme";
 import ModalPrinter from "../Card-1/Components/PopUp/ModalPrinter";
@@ -176,9 +176,9 @@ const RightCard = ({ item, Loading, navigation, Visible, ToPrete }) => {
           }}
         >
           <Image source={group156} style={styles.img} />
-          <Text numberOfLines={1} style={styles.TextButton}>
+          {/* <Text numberOfLines={1} style={styles.TextButton}>
             Commande prête
-          </Text>
+          </Text> */}
         </TouchableOpacity>
       ) : (
         <View style={styles.LoadingButton}>

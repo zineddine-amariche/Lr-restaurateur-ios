@@ -47,15 +47,16 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     marginTop: Platform.OS =="ios"?20:10,
-    justifyContent: "space-around",
-    paddingHorizontal: Platform.OS =="ios"?20: 10,
+    // justifyContent: "space-around",
+    paddingHorizontal: Platform.OS =="ios"?15: 10,
   },
   TextButton: {
     color: COLORS.primary,
     fontSize: 13,
   },
   img: {
-    marginRight: 15,
+    // marginRight: 15,
+    
   },
   Touch: {
     // backgroundColor: "#ccc",

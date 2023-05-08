@@ -8,7 +8,11 @@ import {
 import React, { useEffect } from "react";
 import { styles } from "./styles";
 import group155 from "../../../../../assets/Accueil/Group155.png";
-import group156 from "../../../../../assets/Accueil/Group156.png";
+
+
+import group156 from "../../../../../assets/Accueil/Vectors.png";
+
+
 import { useCommandes } from "../../Hooks/useCommandes";
 import { COLORS } from "../../../../../constants/theme";
 import ModalPrinter from "./Components/PopUp/ModalPrinter";
@@ -185,9 +189,9 @@ const RightCard = ({
           }}
         >
           <Image source={group156} style={styles.img} />
-          <Text numberOfLines={1} style={styles.TextButton}>
+          {/* <Text numberOfLines={1} style={styles.TextButton}>
             Envoyer en cuisine
-          </Text>
+          </Text> */}
         </TouchableOpacity>
       ) : (
         <View style={styles.LoadingButton}>

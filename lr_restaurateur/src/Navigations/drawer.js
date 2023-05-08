@@ -11,6 +11,7 @@ import Espace from '../Pages/Screens-2-Commandes/screen-2-Espace';
 import Parametre from '../Pages/Screens-4-Others/Parametres/Screen-1-Paramètre/SettingsScreen';
 import Horaires from '../Pages/Screens-4-Others/Parametres/Horaire';
 import DetailsReservation from '../Pages/Screens-3-Réservations/Screens_Details_Reservations';
+import Test from '../Pages/Test';
 // import SaveReservation from "../Pages/Screens-3-Réservations/Reservation--Screen--1/Components/saveRedervation";
 const Drawer = createDrawerNavigator();
 
@@ -22,7 +23,7 @@ const DrawerScreen = () => {
       }}
       drawerContent={props => <DrawerContent {...props} />}>
       {/* <Drawer.Screen name="ListCommandeScreen" component={ListCommandeScreen} /> */}
-      <Drawer.Screen name="Espace" component={Espace} />
+      {/* <Drawer.Screen name="Espace" component={Espace} /> */}
       <Drawer.Screen name="Accueil" component={Accueil} />
       <Drawer.Screen name="Commandes" component={Commandes} />
       <Drawer.Screen name="Details" component={Details} />
@@ -30,7 +31,8 @@ const DrawerScreen = () => {
       <Drawer.Screen name="Imprission" component={Imprission} />
       <Drawer.Screen name="Reservation" component={Reservation} />
       <Drawer.Screen name="DetailsReservation" component={DetailsReservation} />
-
+      <Drawer.Screen name="Test" component={Test} />
+      
       {/* <Drawer.Screen name="SaveReservation" component={SaveReservation} /> */}
       <Drawer.Screen name="CommandesTerminer" component={CommandesTerminer} />
       <Drawer.Screen name="Horaires" component={Horaires} />

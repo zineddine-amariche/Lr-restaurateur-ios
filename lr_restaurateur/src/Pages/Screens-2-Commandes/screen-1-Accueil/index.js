@@ -1,4 +1,4 @@
-import {StatusBar, SafeAreaView, View} from 'react-native';
+import {StatusBar, SafeAreaView, View, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import HeaderAccueil from '../../../Components/Headers/header-1-Primary';
 import {styles} from './Hooks/styles';
@@ -19,7 +19,7 @@ import {GetReservationsData} from '../../../Redux/Actions/Reservations/reservati
 import {useReservation} from '../../Screens-3-Réservations/Reservation--Screen--1/Hooks/useReservation';
 import {GetAllCommandes} from '../../../Redux/Actions/Commandes';
 import {UsePrinter} from '../../Screens-4-Others/Parametres/imprimante/Hooks/UsePrinter';
-import { Txt } from '../../../Components/utils';
+import {Txt} from '../../../Components/utils';
 
 const Accueil = ({navigation, route}) => {
   const {reconnect} = UsePrinter();
@@ -56,24 +56,39 @@ const Accueil = ({navigation, route}) => {
     let lastDeviceName = await AsyncStorage.getItem('lastDeviceName');
     // console.info('res', res);
     // console.info('lastDeviceName', lastDeviceName);
-     if(res){
-       let s = await BluetoothManager.connect(JSON.parse(res));
-       if (s) {
-         let row = {
-           address: res,
-           name: lastDeviceName,
-         };
-         reconnect(row);
-       }
-     }
+    if (res) {
+      let s = await BluetoothManager.connect(JSON.parse(res));
+      if (s) {
+        let row = {
+          address: res,
+          name: lastDeviceName,
+        };
+        reconnect(row);
+      }
+    }
 
-  //   setRsr(res);
-  //  setRsr2(s);
+    //   setRsr(res);
+    //  setRsr2(s);
   };
 
   useEffect(() => {
     reconnectDevice();
   }, []);
+
+
+  // const KeepAwakeApp = () => {
+  //   const interval = setInterval(() => {
+  //     if (isFocused) {
+  //       KeepAwake.activate();
+  //     }
+  //   }, 5000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // };
+  // useEffect(() => {
+  //   KeepAwakeApp();
+  // }, [isFocused]);
 
   const {configHead} = useReservation();
 
@@ -131,11 +146,18 @@ const Accueil = ({navigation, route}) => {
         Visible={Visible}
         closeMenu={closeMenu}
       />
-      <View style={{padding:10}}>
+
+      <View style={{padding: 20}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Test');
+          }}>
+          <Txt color={COLORS.white} >ToTest</Txt>
+        </TouchableOpacity>
+      </View>
 
       {/* <Txt color={COLORS.white}>{!Rsr? 'null'  :Rsr}</Txt>
       <Txt color={COLORS.white}>{!Rsr2 ? 'null': Rsr2}</Txt> */}
-      </View>
       <Body navigation={navigation} />
       {/* {!Rsr && <Txt color={COLORS}>{Rsr} resSSSS</Txt>}
       {Rsr2 && <Txt>{Rsr2}</Txt>} */}
