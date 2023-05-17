@@ -64,6 +64,7 @@ const App = () => {
   };
   return (
     <PaperProvider>
+
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           {checkAsyc ? <RootLiveRestoApp /> : <Loading />}

@@ -147,14 +147,14 @@ const Accueil = ({navigation, route}) => {
         closeMenu={closeMenu}
       />
 
-      <View style={{padding: 20}}>
+      {/* <View style={{padding: 20}}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Test');
           }}>
           <Txt color={COLORS.white} >ToTest</Txt>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* <Txt color={COLORS.white}>{!Rsr? 'null'  :Rsr}</Txt>
       <Txt color={COLORS.white}>{!Rsr2 ? 'null': Rsr2}</Txt> */}

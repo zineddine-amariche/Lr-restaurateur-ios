@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   TextId: {
-    fontSize: 50,
+    fontSize: 40,
     fontWeight: '700',
   },
   ContainerBodyTab: {

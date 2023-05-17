@@ -26,7 +26,6 @@ export function DrawerContent(props) {
   let key = ['password', 'login'];
 
   const dispatch = useDispatch();
-
   const getReservations = useSelector(state => state.auth);
 
   const {login} = getReservations;
@@ -77,12 +76,17 @@ export function DrawerContent(props) {
 
             <DrawerItem
               icon={({color, size}) => <Image source={gestion}  style={{height:25,width:25}}/>}
-              label="Paramètres de gestion"
+              label="Gestion produit"
               onPress={() => {
                 // props.navigation.navigate('Parametre');
                 // let url ="https://m2.live-resto.fr/manager/payments/edit?token=132e2b52-fe34-4a96-a6a1-1071966761cd&establishment_id=3&login=gabriel"
-  
-                let url = `https://m2.live-resto.fr/manager?token=${token}&establishment_id=${id}&login=${name}`;
+
+                "https://m2.live-resto.fr/manager/products?token=${token}&establishment_id=${id}&login=${name}"
+                let url = `https://m2.live-resto.fr/manager/products?token=${token}&establishment_id=${id}&login=${name}`;
+                // let url = `https://m2.live-resto.fr/manager/payments/products?token=${token}&establishment_id=${id}&login=${name}`;
+
+  "https://m2.live-resto.fr/manager/products?"
+
                 Linking.openURL(url);
 
               }}

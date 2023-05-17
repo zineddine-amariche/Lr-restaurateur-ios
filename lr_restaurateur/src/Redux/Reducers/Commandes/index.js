@@ -36,7 +36,8 @@ const initialState = {
   isOpen: true,
   idOrder: '',
   ordersById: [],
-  productData:[]
+  productData:[],
+  status:'Toutes'
 };
 
 const Commandes = (state = initialState, action) => {

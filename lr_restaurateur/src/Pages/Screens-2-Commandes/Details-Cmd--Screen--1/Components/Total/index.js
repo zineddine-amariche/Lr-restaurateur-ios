@@ -30,6 +30,8 @@ const Total = ({orders, item,width}) => {
 
   }
   const colorScheme = useColorScheme();
+let typeIo = item.type == 10 ? "Frais de livraison" :item.type == 20 ? "Frais de préparation" : "Frais de préparation"
+
   return (
     <View style={container}>
       <View style={COL}>
@@ -38,7 +40,7 @@ const Total = ({orders, item,width}) => {
             <Text style={[styles.TextArticles, {color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,}]}>{orders.productsCount} produits</Text>
         </View>
         <View style={styles.rowDetails}>
-          <Text style={[styles.TextSemiBold,{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,}]}>Frais de livraison</Text>
+          <Text style={[styles.TextSemiBold,{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,}]}>{typeIo} </Text>
           <Text style={[styles.TextSemiBold,{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,}]}>
             {item.delivery_price.toFixed(2)} €
           </Text>

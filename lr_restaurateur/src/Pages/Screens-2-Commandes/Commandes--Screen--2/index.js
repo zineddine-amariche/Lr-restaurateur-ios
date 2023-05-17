@@ -1,5 +1,5 @@
 import { View, StatusBar, SafeAreaView } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Header from "../../../Components/Headers/header-1-Primary";
 import { COLORS } from "../../../constants/theme";
 import { useCommandeTerminé } from "./Hooks/useCommandeTerminé";
@@ -13,6 +13,7 @@ import SectionNavigation from "../../../Components/Section-Buttons-navigation";
 import ToastMessages from "../../../Components/ToastMessages";
 import KeepAwake from "react-native-keep-awake";
 import ButtonsTabsMenue from "../../../Components/Buttons/TabsButtons/ButtonsTabsMenue";
+import { Modalize } from "react-native-modalize";
 
 const CommandesTerminer = ({ navigation }) => {
   const { dispatch, configHead } = useCommandeTerminé();
@@ -63,6 +64,8 @@ const CommandesTerminer = ({ navigation }) => {
     KeepAwakeApp();
   }, [isFocused]);
 
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
@@ -87,10 +90,14 @@ const CommandesTerminer = ({ navigation }) => {
       />
       <>
         <ChoiceDate />
-        <SectionType navigation={navigation} />
+        <SectionType navigation={navigation} onOpen={onOpen}/>
       </>
+
+ 
     </SafeAreaView>
   );
 };
 
 export default CommandesTerminer;
+
+

@@ -15,6 +15,8 @@ import { useCommandes } from "../../Hooks/useCommandes";
 import ModalPrinter from "../Card-1/Components/PopUp/ModalPrinter";
 import { useSelector } from "react-redux";
 import { COLORS } from "../../../../../constants/theme";
+import { Txt } from "../../../../../Components/utils";
+import moment from "moment";
 
 const CardTr = ({ item, navigation }) => {
   const {
@@ -47,12 +49,14 @@ const CardTr = ({ item, navigation }) => {
     borderColor: COLORS.primary,
     marginVertical: 5,
     justifyContent: "center",
-    height: width <= 770 ? 148 : 152,
+    // height: width <= 770 ? 148 : 152,
     marginTop: 10,
     marginHorizontal: 5,
     width: IsTab ? (width <= 770 ? "49%" : "45%") : 330,
     overflow: "hidden",
     marginBottom: 10,
+    paddingBottom:10 
+
   };
 
   return (
@@ -90,6 +94,10 @@ export default CardTr;
 
 const LeftCard = ({ item }) => {
   const colorScheme = useColorScheme();
+let typeIo = item.type == 10 ? "Livraison" :item.type == 20 ? "Retrait sur place" : "Sur place"
+
+let time = item.for_when;
+let timer = moment(time).format('H:mm');
   return (
     <View
       style={{
@@ -101,6 +109,24 @@ const LeftCard = ({ item }) => {
     >
       <View style={styles.client}>
         <Text style={[styles.clientText,{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark}]}>{item.bill.full_name}</Text>
+        
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        
+        <Text style={[{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,fontSize:16,marginTop:6,
+                marginRight: 9,
+              }]}>{typeIo}</Text>
+        <Text
+            style={[
+              {
+                color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+                fontSize: 16,
+                marginTop: 6,
+                fontWeight: 'bold',
+              },
+            ]}>
+            {timer}
+          </Text>
+        </View>
       </View>
       {/* <Text style={styles.TextArticle}>{item.productsCount}produits</Text> */}
       <View style={styles.etat}>
@@ -117,12 +143,16 @@ const RightCard = ({ item, Loading, navigation, marginLeftCus, OnPrinte }) => {
       style={{
         width: "50%",
         height: "100%",
-        paddingTop: 30,
+        paddingTop: 10,
         paddingHorizontal: 15,
         alignItems: "flex-end",
       }}
     >
       <View style={styles.client}>
+
+      <Txt color={COLORS.black} fontSize={18} Bold={'700'}>
+          #{item.id}{' '}
+        </Txt>
         {/* {item.payments.length <= 2 ? (
           <View>
             {item.payments.map((i) => {

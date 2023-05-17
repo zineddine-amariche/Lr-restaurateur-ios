@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 import {COLORS} from '../../../../../constants/theme';
 
 const {height, width} = Dimensions.get('window');
@@ -17,14 +17,16 @@ export const styles = StyleSheet.create({
 
   btnToCuisine:{
     flexDirection:'row',
-    height:28,
+    // height:28,
     borderRadius:20,
-    backgroundColor:'#fff',
+    // backgroundColor:'#fff',
     alignSelf:'flex-end',
     alignItems:'center',
     marginTop:10,
     justifyContent:"space-around",
-    paddingHorizontal:10
+    // paddingHorizontal:30,
+    paddingHorizontal: Platform.OS =="ios"?25: 30,
+     paddingVertical:4
 
   },
   TextButton:{
@@ -66,7 +68,6 @@ export const styles = StyleSheet.create({
   },
 
   img:{
-    marginRight:5
   },
   Touch:{
     // backgroundColor: "#ccc",
@@ -80,7 +81,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 28,
     borderRadius: 20,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignSelf: 'flex-end',
     alignItems: 'center',
     justifyContent: 'center',

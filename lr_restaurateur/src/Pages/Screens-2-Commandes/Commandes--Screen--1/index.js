@@ -1,14 +1,18 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {styles} from './Hooks/styles';
 import {View, StatusBar, Vibration, SafeAreaView} from 'react-native';
 import Header from '../../../Components/Headers/header-1-Primary';
 import {COLORS} from '../../../constants/theme';
-import { GetAllCommandes} from '../../../Redux/Actions/Commandes';
+import {GetAllCommandes} from '../../../Redux/Actions/Commandes';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {useCommandes} from './Hooks/useCommandes';
- import Sound from 'react-native-sound';
-import {COMMANDES_BY_STATUS, LOADING} from '../../../Redux/Types/Commandes';
+import Sound from 'react-native-sound';
+import {
+  COMMANDES_BY_STATUS,
+  LOADING,
+  STATUS_ACTIVE,
+} from '../../../Redux/Types/Commandes';
 import ToastMessages from '../../../Components/ToastMessages';
 import KeepAwake from 'react-native-keep-awake';
 import Laoder from '../../../Components/Laoder';
@@ -17,13 +21,15 @@ import ButtonsTabsMenue from '../../../Components/Buttons/TabsButtons/ButtonsTab
 import Timer from '../../../Components/Timer';
 import {startTimer} from '../../../Redux/Actions/Timer';
 import {CHANGE_STYLES} from '../../../Redux/Types/Timer';
-import { GetReservationsData } from '../../../Redux/Actions/Reservations/reservationsActions';
-
+import {GetReservationsData} from '../../../Redux/Actions/Reservations/reservationsActions';
+import {Modalize} from 'react-native-modalize';
+import {Head, Txt} from '../../../Components/utils';
+import UseCheck from '../../../Components/Buttons/customCheckBox';
+import Space from '../../../Components/Space';
+import ButtonValidate from '../../Screens-3-Réservations/Reservation--Screen--1/Components/saveRedervation/components/Button';
 
 const LazySectionTYpe = React.lazy(() => import('./Components/SectionType'));
 const Commandes = ({navigation}) => {
-
-
   const [Visible, setVisible] = useState(false);
   const [timerOn, setTimerOn] = useState(false);
   const [timeLeft, settimeLeft] = useState(second_selected);
@@ -38,7 +44,6 @@ const Commandes = ({navigation}) => {
     state => state.TimerSlice,
   );
 
-
   const {
     mergedArray,
     refresh,
@@ -46,8 +51,8 @@ const Commandes = ({navigation}) => {
     dispatch,
     ToCommandes,
     ToReservation,
+    setStatus,
   } = useCommandes();
-
 
   const openMenu = () => {
     setVisible(true);
@@ -68,7 +73,6 @@ const Commandes = ({navigation}) => {
             }
             GetAllCommandes(dispatch, configHead);
             GetReservationsData(dispatch, configHead);
-
           }
         } catch (e) {
           console.log('------22-', e);
@@ -78,9 +82,7 @@ const Commandes = ({navigation}) => {
     return () => {
       clearInterval(interval);
     };
-
   }, [Token, isFocused, refresh]);
-
 
   var Filter = mergedArray.filter(data => {
     return data.kitchenstate_id == 20;
@@ -95,8 +97,7 @@ const Commandes = ({navigation}) => {
     };
   }, [toComfirm.length, isFocused]);
 
-
-  let soundUrl = require('../../../../android/app/src/main/res/raw/son.mp3')
+  let soundUrl = require('../../../../android/app/src/main/res/raw/son.mp3');
 
   const startSounder = () => {
     BackgroundTimer.runBackgroundTimer(() => {
@@ -107,7 +108,9 @@ const Commandes = ({navigation}) => {
       } else if (Filter.length !== 0) {
         var mySound = new Sound(soundUrl, error => {
           if (error) {
-            console.log('Error loading sound: ' + JSON.stringify(error.message));
+            console.log(
+              'Error loading sound: ' + JSON.stringify(error.message),
+            );
             return;
           } else {
             if (Filter.length !== 0) {
@@ -130,38 +133,38 @@ const Commandes = ({navigation}) => {
     }, 5000);
   };
 
-  function filterData() {
-    if (status_active == 'À préparer') {
-      var Filter = mergedArray.filter(data => {
-        return data.kitchenstate_id == 20;
-      });
-    }
-    if (status_active == 'En Cuisine') {
-      var Filter = mergedArray.filter(data => {
-        return data.kitchenstate_id == 30;
-      });
-    }
-    if (status_active == 'Prêtes') {
-      var Filter = mergedArray.filter(data => {
-        return data.kitchenstate_id == 40;
-      });
-    }
-    if (status_active == 'Toutes') {
-      var Filter = mergedArray.filter(data => {
-        return mergedArray;
-      });
-    }
-    dispatch({type: COMMANDES_BY_STATUS, payload: Filter});
-  }
-  useEffect(() => {
-    if (
-      status_active === 'À préparer' ||
-      status_active === 'En Cuisine' ||
-      status_active === 'Prêtes'
-    ) {
-      filterData();
-    }
-  }, [status_active, isFocused, refresh]);
+  // function filterData() {
+  //   if (status_active == 'À préparer') {
+  //     var Filter = mergedArray.filter(data => {
+  //       return data.kitchenstate_id == 20;
+  //     });
+  //   }
+  //   if (status_active == 'En Cuisine') {
+  //     var Filter = mergedArray.filter(data => {
+  //       return data.kitchenstate_id == 30;
+  //     });
+  //   }
+  //   if (status_active == 'Prêtes') {
+  //     var Filter = mergedArray.filter(data => {
+  //       return data.kitchenstate_id == 40;
+  //     });
+  //   }
+  //   if (status_active == 'Toutes') {
+  //     var Filter = mergedArray.filter(data => {
+  //       return mergedArray;
+  //     });
+  //   }
+  //   dispatch({type: COMMANDES_BY_STATUS, payload: Filter});
+  // }
+  // useEffect(() => {
+  //   if (
+  //     status_active === 'À préparer' ||
+  //     status_active === 'En Cuisine' ||
+  //     status_active === 'Prêtes'
+  //   ) {
+  //     filterData();
+  //   }
+  // }, [status_active, isFocused, refresh]);
 
   const routes = useRoute();
 
@@ -193,8 +196,61 @@ const Commandes = ({navigation}) => {
     }
   }, [timeLeft]);
 
+  const modalRef = useRef(null);
+
+  const onOpen = () => {
+    modalRef.current?.open();
+  };
+
+  const [Data, setdata] = useState(dataCheck);
+  const [arr, setA] = useState([]);
+
+  console.log('arr', arr);
+
+
+  const HandelChangeCheck = item => {
+    let data = [...dataCheck];
+    let index = data.findIndex(x => x.id === item);
+    data[index].isCheck = data[index].isCheck === false ? true : false;
+
+    var Filter = data.filter(data => {
+      return data.isCheck == true;
+    });
+
+    let filterValues = Filter.map(i => {
+      return i.id;
+    });
+ 
+    // console.log('filterValues', filterValues);
+    setdata(data);
+    setA(filterValues);
+  };
+
+
+
+
+  
+  const onClose = () => {
+
+    if(arr.length){
+      const filteredItems = mergedArray.filter(item =>
+        arr.includes(item.kitchenstate_id),
+      );
+      dispatch({type: STATUS_ACTIVE, payload: arr});
+      dispatch({type: COMMANDES_BY_STATUS, payload: filteredItems});
+    }else{
+      dispatch({type: STATUS_ACTIVE, payload: "Toutes"});
+      dispatch({type: COMMANDES_BY_STATUS, payload: []});
+
+    }
    
 
+    // console.log('filteredItems', filteredItems.length)
+
+    setTimeout(() => {
+      modalRef.current?.close();
+    }, 200);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -223,11 +279,72 @@ const Commandes = ({navigation}) => {
         />
 
         <React.Suspense fallback={<Laoder />}>
-          <LazySectionTYpe navigation={navigation} />
+          <LazySectionTYpe navigation={navigation} onOpen={onOpen} />
         </React.Suspense>
       </>
+
+      <Modalize
+        snapPoint={350}
+        ref={modalRef}
+        overlayStyle={{
+          backgroundColor: COLORS.transparentPrimray,
+        }}
+        adjustToContentHeight={false}>
+        <ContentRenders
+          Data={Data}
+          HandelChangeCheck={HandelChangeCheck}
+          onClose={onClose}
+        />
+      </Modalize>
     </SafeAreaView>
   );
 };
 
 export default Commandes;
+
+let dataCheck = [
+  {
+    name: 'En attente',
+    color: COLORS.red,
+    isCheck: false,
+    id: 20,
+    status: 'À préparer',
+  },
+  {
+    name: 'En cuisine',
+    color: COLORS.Jaune,
+    isCheck: false,
+    id: 30,
+    status: 'En Cuisine',
+  },
+  {
+    name: 'Commandes prêtes',
+    color: COLORS.green,
+    isCheck: false,
+    id: 40,
+    status: 'Prêtes',
+  },
+];
+
+const ContentRenders = ({HandelChangeCheck, onClose, Data}) => {
+  return (
+    <View
+      style={{
+        backgroundColor: COLORS.white,
+        padding: 16,
+        marginTop: 30,
+      }}>
+      <Head style={styles.Head}>Trier par :</Head>
+      <Space space={30} />
+      <View>
+        {Data.map((i, index) => {
+          return <UseCheck item={i} HandelChangeCheck={HandelChangeCheck} />;
+        })}
+      </View>
+      <Space space={30} />
+      <ButtonValidate isSubmitting={false} handleSubmit={onClose}>
+        Validate
+      </ButtonValidate>
+    </View>
+  );
+};

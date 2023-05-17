@@ -61,7 +61,12 @@ const Details = ({ route, navigation }) => {
   useEffect(() => {
     KeepAwakeApp();
   }, [isFocused]);
+
+
+  // console.log('item', item.type)
   
+let typeIo = item.type == 10 ? "Livraison" :item.type == 20 ? "Retrait sur place" : "Sur place"
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,6 +79,7 @@ const Details = ({ route, navigation }) => {
       <ScrollView>
         <View style={styles.containerId}>
           <Text style={[styles.TextId,{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,}]}>#{item.id}</Text>
+          <Text style={{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,fontSize:20, fontWeight:"400"}}>{typeIo}</Text>
         </View>
         <View style={styles.ContainerBodyTab}>
           <Info item={item} />

@@ -11,11 +11,16 @@ import React, { useEffect } from "react";
 import { styles } from "./styles";
 import group from "../../../../../assets/Accueil/Group149.png";
 import group155 from "../../../../../assets/Accueil/Group151.png";
-import group156 from "../../../../../assets/Accueil/Couleur=Jaune.png";
+// import group156 from "../../../../../assets/case-a-cocher.png";
+import group156 from "../../../../../assets/Check_rond_64.png";
+
+
 import { useCommandes } from "../../Hooks/useCommandes";
 import { COLORS } from "../../../../../constants/theme";
 import ModalPrinter from "../Card-1/Components/PopUp/ModalPrinter";
 import { useSelector } from "react-redux";
+import moment from "moment";
+import { Txt } from "../../../../../Components/utils";
 
 const CardEn = ({ item, navigation }) => {
   const {
@@ -46,13 +51,13 @@ const CardEn = ({ item, navigation }) => {
     borderColor: COLORS.primary,
     marginVertical: 5,
     justifyContent: "center",
-    height: width <= 770 ? 148 : 152,
+    // height: width <= 770 ? 148 : 152,
     marginTop: 10,
     marginHorizontal: 5,
     width: IsTab ? (width <= 770 ? "49%" : "45%") : 330,
     overflow: "hidden",
     marginBottom: 10,
-  };
+    paddingBottom:10  };
  
 
   return (
@@ -93,6 +98,10 @@ export default CardEn;
 
 const LeftCard = ({ item }) => {
   const colorScheme = useColorScheme();
+let typeIo = item.type == 10 ? "Livraison" :item.type == 20 ? "Retrait sur place" : "Sur place"
+let time = item.for_when;
+let timer = moment(time).format('H:mm');
+
   return (
     <View
       style={{
@@ -104,6 +113,24 @@ const LeftCard = ({ item }) => {
     >
       <View style={styles.client}>
         <Text style={[styles.clientText,{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,}]}>{item.bill.full_name}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        
+        <Text style={[{color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,fontSize:16,marginTop:6,
+                marginRight: 9,
+      
+      }]}>{typeIo}</Text>
+        <Text
+            style={[
+              {
+                color: colorScheme == 'dark' ? COLORS.black : COLORS.dark,
+                fontSize: 16,
+                marginTop: 6,
+                fontWeight: 'bold',
+              },
+            ]}>
+            {timer}
+          </Text>
+        </View>
       </View>
       {/* <Text style={styles.TextArticle}>{item.productsCount}produits</Text> */}
       <View style={styles.etat}>
@@ -120,12 +147,15 @@ const RightCard = ({ item, Loading, navigation, Visible, ToPrete }) => {
       style={{
         width: "50%",
         height: "100%",
-        paddingTop: 30,
+        paddingTop: 10,
         paddingHorizontal: 15,
         alignItems: "flex-end",
       }}
     >
       <View style={styles.client}>
+      <Txt color={COLORS.black} fontSize={18} Bold={'700'}>
+          #{item.id}{' '}
+        </Txt>
         {/* {item.payments.length <= 2 ? (
           <View>
             {item.payments.map((i) => {
@@ -175,7 +205,11 @@ const RightCard = ({ item, Loading, navigation, Visible, ToPrete }) => {
             ToPrete(item.id);
           }}
         >
-          <Image source={group156} style={styles.img} />
+          <Image source={group156} style={[styles.img
+          ,{width:40,height:40}
+        ]
+            
+            } />
           {/* <Text numberOfLines={1} style={styles.TextButton}>
             Commande prête
           </Text> */}

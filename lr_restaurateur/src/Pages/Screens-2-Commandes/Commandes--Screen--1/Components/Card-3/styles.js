@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 import {COLORS} from '../../../../../constants/theme';
 
 const {height, width} = Dimensions.get('window');
@@ -51,7 +51,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop:10,
     justifyContent:"space-around",
-    paddingHorizontal:10
+     paddingHorizontal:10,
+    // paddingHorizontal: Platform.OS =="ios"?25: 30,
+
   },
   TextButton: {
     color: COLORS.white,

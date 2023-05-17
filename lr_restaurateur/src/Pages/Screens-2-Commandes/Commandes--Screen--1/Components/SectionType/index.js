@@ -1,5 +1,5 @@
 import {View, FlatList} from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {styles} from './Styles';
 import {useCommandes} from '../../Hooks/useCommandes';
 import {useSelector} from 'react-redux';
@@ -9,13 +9,13 @@ import {ScrollView} from 'react-native-gesture-handler';
 import NoCommandes from '../../../../../Components/NoCommandes';
 import CardLoader from '../../../../../Components/SelektonCards';
 
-const SectionType = ({navigation}) => {
+const SectionType = ({navigation,onOpen}) => {
   const {mergedArray, status, textButtonFiltre, setStatus, width,GetProducts} =
     useCommandes();
 
   const Commandes = useSelector(state => state.Commandes);
-  const {arr} = Commandes;
-
+  const {arr,status_active} = Commandes;
+// console.log('Commandes', Commandes)
   const Tablet = useSelector(state => state.IsTab);
   const {IsTab} = Tablet;
 
@@ -23,9 +23,12 @@ const SectionType = ({navigation}) => {
   //   GetProducts()
   // }, [])
 
+console.log('mergedArray.length', mergedArray.length)
+
+console.log('status_active', status_active)
   return (
     <View style={styles.container}>
-      <FilterSelect setStatus={setStatus} textButtonFiltre={textButtonFiltre} />
+      <FilterSelect setStatus={setStatus} onOpen={onOpen} textButtonFiltre={textButtonFiltre} />
       <ScrollView 
       contentContainerStyle={{backgroundColor:"#FFF" ,  }}
       >
@@ -35,7 +38,7 @@ const SectionType = ({navigation}) => {
         <View style={[styles.FlatList, {width: width}]}>
 
           {mergedArray.length ? (
-            status === 'Toutes' ? (
+            status_active === 'Toutes' ? (
               IsTab ? (
                 <FlatList
                   key={'_'}
@@ -97,8 +100,11 @@ const SectionType = ({navigation}) => {
         {/* </ScrollView> */}
 
       </ScrollView>
+
+
     </View>
   );
 };
 
 export default SectionType;
+

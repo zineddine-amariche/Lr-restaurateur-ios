@@ -92,6 +92,14 @@ export function useInfo() {
   const doWihlePrintr = async (item, articlNbr) => {
     let i = 1;
     setLoading(true);
+
+    let typeIo =
+      item.type == 10
+        ? 'Livraison'
+        : item.type == 20
+        ? 'Retrait sur place'
+        : 'Sur place';
+
     do {
       if (IsChanged && orders && orders.length > 0) {
         // console.log(`title print`, i);
@@ -123,17 +131,11 @@ export function useInfo() {
             heigthtimes: 3,
             fonttype: 1,
           });
-          await BluetoothEscposPrinter.printText(
-            '______________________________________\r\n',
-            {
-              fonttype: 1,
-            },
-          );
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
           await BluetoothEscposPrinter.setBlob(0);
-          await BluetoothEscposPrinter.printText(' Livraison \r\n', {
+          await BluetoothEscposPrinter.printText(typeIo + '\r\n', {
             encoding: 'GBK',
             codepage: 0,
             widthtimes: 3,
@@ -144,64 +146,92 @@ export function useInfo() {
           await BluetoothEscposPrinter.printerAlign(
             BluetoothEscposPrinter.ALIGN.CENTER,
           );
-
-
-          await BluetoothEscposPrinter.printText(
-            'Client : ' +
-              item.delivery.full_name +
-              '  --  ' +
-              item.delivery.phone +
-              '\r\n',
-            {},
-          );
-          await BluetoothEscposPrinter.printText(
-            ' Adresse : '+ item?.delivery.postal+ ' - ' + item.delivery.address + '  \r\n',
-            {},
-          );
-
-          item?.delivery.city !== '' &&
-            (await BluetoothEscposPrinter.printText(
-              ' ' +
-                item?.delivery.city +
-                ' \r\n',
-              {},
-            ));
-          item?.delivery.floor !== '' &&
-            (await BluetoothEscposPrinter.printText(
-              'Etage : ' + item?.delivery.floor + ' \r\n',
-              {
-                encoding: 'UTF-8',
-              },
-            ));
-          item?.delivery.building !== '' &&
-            (await BluetoothEscposPrinter.printText(
-              'Immeuble : ' + item?.delivery.building + ' \r\n',
-              {
-                encoding: 'UTF-8',
-              },
-            ));
-          item?.delivery.code_doorbell !== '' &&
-            (await BluetoothEscposPrinter.printText(
-              'Code sonette: ' + item?.delivery.code_doorbell + ' \r\n',
-              {},
-            ));
-          item?.delivery.code_elevator !== '' &&
-            (await BluetoothEscposPrinter.printText(
-              'Code ascenceur : ' + item?.delivery.code_elevator + ' \r\n',
-              {},
-            ));
-
-
-
-          await BluetoothEscposPrinter.printerAlign(
-            BluetoothEscposPrinter.ALIGN.CENTER,
-          );
           await BluetoothEscposPrinter.printText(
             '______________________________________\r\n',
             {
               fonttype: 1,
             },
           );
+
+          {
+            item?.payments && item?.payments.length > 0
+              ? item?.payments.map(i => {
+                  return BluetoothEscposPrinter.printColumn(
+                    [20, 2, 10],
+                    [
+                      BluetoothEscposPrinter.ALIGN.LEFT,
+                      BluetoothEscposPrinter.ALIGN.CENTER,
+                      BluetoothEscposPrinter.ALIGN.RIGHT,
+                    ],
+                    [
+                      '' + i.title + ' :',
+                      '',
+                      '' + i._joinData.amount.toFixed(2) + ' €',
+                    ],
+                    {
+                      encoding: 'windows-1250',
+                      codepage: 25,
+                    },
+                  );
+                })
+              : await BluetoothEscposPrinter.printText(' \r\n', {});
+          }
+          item?.type == 10 &&
+            (await BluetoothEscposPrinter.printText(
+              'Client : ' +
+                item?.delivery?.full_name +
+                '  --  ' +
+                item?.delivery?.phone +
+                '\r\n',
+              {},
+            ),
+            await BluetoothEscposPrinter.printText(
+              ' Adresse : ' +
+                item?.delivery?.postal +
+                ' - ' +
+                item?.delivery?.address +
+                '  \r\n',
+              {},
+            ),
+            item?.delivery?.city !== '' &&
+              (await BluetoothEscposPrinter.printText(
+                ' ' + item?.delivery?.city + ' \r\n',
+                {},
+              )),
+            item?.delivery.floor !== '' &&
+              (await BluetoothEscposPrinter.printText(
+                'Etage : ' + item?.delivery?.floor + ' \r\n',
+                {
+                  encoding: 'UTF-8',
+                },
+              )),
+            item?.delivery.building !== '' &&
+              (await BluetoothEscposPrinter.printText(
+                'Immeuble : ' + item?.delivery?.building + ' \r\n',
+                {
+                  encoding: 'UTF-8',
+                },
+              )),
+            item?.delivery.code_doorbell !== '' &&
+              (await BluetoothEscposPrinter.printText(
+                'Code sonette: ' + item?.delivery?.code_doorbell + ' \r\n',
+                {},
+              )),
+            item?.delivery.code_elevator !== '' &&
+              (await BluetoothEscposPrinter.printText(
+                'Code ascenceur : ' + item?.delivery?.code_elevator + ' \r\n',
+                {},
+              )),
+            await BluetoothEscposPrinter.printerAlign(
+              BluetoothEscposPrinter.ALIGN.CENTER,
+            ),
+            await BluetoothEscposPrinter.printText(
+              '______________________________________\r\n',
+              {
+                fonttype: 1,
+              },
+            ));
+
           await BluetoothEscposPrinter.printText('\r\n', {});
 
           {
@@ -233,7 +263,7 @@ export function useInfo() {
                         BluetoothEscposPrinter.ALIGN.LEFT,
                       ),
                       BluetoothEscposPrinter.printText(
-                        ext.option + ' :  ' + ext.choice + '' + '' + '\r\n',
+                        ext?.option + ' :  ' + ext?.choice + '' + '' + '\r\n',
                         {
                           encoding: 'windows-1254',
                           codepage: 25,
@@ -252,7 +282,7 @@ export function useInfo() {
           );
           await BluetoothEscposPrinter.setBlob(0);
           await BluetoothEscposPrinter.printText(
-            " Nombre d'articles: " + articlNbr.productsCount + '\r\n',
+            " Nombre d'articles: " + articlNbr?.productsCount + '\r\n',
             {
               encoding: 'windows-1254',
               codepage: 25,
@@ -416,8 +446,8 @@ export function useInfo() {
         //   });
         // }
         // console.log('#', item?.id);
-        // console.log('Client :', item?.delivery.full_name);
-      //  console.log('Addresse',   item?.delivery.postal, item.delivery.address );
+        console.log('Client :', item);
+        //  console.log('Addresse',   item?.delivery.postal, item.delivery.address );
         // console.log('Ville', item?.delivery.city);
 
         // if (orders && orders.length > 0) {

@@ -15,7 +15,7 @@ import { useCommandeTerminé } from "../../Hooks/useCommandeTerminé";
 
 const LazyCard3 = React.lazy(() => import("../Card-3"));
 
-const SectionType = ({ navigation }) => {
+const SectionType = ({ navigation ,onOpen}) => {
   const { mergedArray, width } = useCommandeTerminé();
   const Printer = useSelector((state) => state.Printer);
   const { error, type } = Printer;
@@ -32,7 +32,7 @@ const SectionType = ({ navigation }) => {
     if (item?.kitchenstate_id === 40 ) {
       return (
         <React.Suspense fallback={<Loading />}>
-          <LazyCard3 item={item} navigation={navigation} />
+          <LazyCard3 item={item} navigation={navigation} onOpen={onOpen} />
         </React.Suspense>
       );
     } else return <View></View>;
@@ -41,7 +41,6 @@ const SectionType = ({ navigation }) => {
   const Tablet = useSelector((state) => state.IsTab);
   const { IsTab } = Tablet;
 
-  console.log("mergedArray", mergedArray);
 
   return (
     <View style={styles.container}>

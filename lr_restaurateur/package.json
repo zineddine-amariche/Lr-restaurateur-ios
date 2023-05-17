@@ -37,6 +37,7 @@
     "react-native-keep-awake": "^4.0.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.6.2",
+    "react-native-modalize": "^2.1.1",
     "react-native-onesignal": "^4.5.1",
     "react-native-paper": "^5.2.0",
     "react-native-permissions": "^3.6.1",

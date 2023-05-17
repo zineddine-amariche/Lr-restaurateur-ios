@@ -1,6 +1,8 @@
 /**
  * @format
  */
+
+
  import React,{useEffect} from 'react';
  import {AppRegistry} from 'react-native';
  import App from './App';

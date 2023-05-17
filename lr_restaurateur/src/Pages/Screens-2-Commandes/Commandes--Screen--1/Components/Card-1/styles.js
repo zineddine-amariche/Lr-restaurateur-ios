@@ -42,13 +42,14 @@ export const styles = StyleSheet.create({
   },
   btnToCuisine: {
     flexDirection: "row",
-    height: 28,
+    // height: 28,
     borderRadius: 20,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
     marginTop: Platform.OS =="ios"?20:10,
     // justifyContent: "space-around",
-    paddingHorizontal: Platform.OS =="ios"?15: 10,
+    paddingHorizontal: Platform.OS =="ios"?25: 30,
+    paddingVertical:4
   },
   TextButton: {
     color: COLORS.primary,
@@ -71,7 +72,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     height: 28,
     borderRadius: 20,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignSelf: "flex-end",
     alignItems: "center",
     justifyContent: "center",
